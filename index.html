@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>CRUD Básico</title>
+    <title>CRUD Básico@@</title>
   </head>
   <body>
     <h1>CRUD Básico</h1>
@@ -20,7 +20,7 @@
           .then(records => {
             let html = '<ul>';
             records.forEach((record, index) => {
-              html += `<li>${record.Producto} - ${record.Código} - ${record.Precio} <button onclick="editRecord(${index})">Editar</button> <button onclick="deleteRecord(${index})">Eliminar</button></li>`;
+              html += `<li>${record.Column1} - ${record.Column2} - ${record.Column3} <button onclick="editRecord(${index})">Editar</button> <button onclick="deleteRecord(${index})">Eliminar</button></li>`;
             });
             html += '</ul>';
             document.getElementById('records').innerHTML = html;
@@ -28,16 +28,16 @@
       }
 
       function editRecord(index) {
-        const newProducto = prompt("Nuevo valor para Producto:");
-        const newCódigo = prompt("Nuevo valor para Código:");
-        const newPrecio = prompt("Nuevo valor para Precio:");
+        const newColumn1 = prompt("Nuevo valor para Column1:");
+        const newColumn2 = prompt("Nuevo valor para Column2:");
+        const newColumn3 = prompt("Nuevo valor para Column3:");
 
         fetch(scriptUrl, {
           method: 'POST',
           body: JSON.stringify({
             action: 'edit',
             index: index,
-            record: {Producto: newProducto, Código: newCódigo, Precio: newPrecio}
+            record: {Column1: newColumn1, Column2: newColumn2, Column3: newColumn3}
           })
         }).then(response => response.json())
           .then(() => loadRecords());
@@ -52,15 +52,15 @@
       }
 
       function addRecord() {
-        const newProducto = prompt("Valor para Producto:");
-        const newCódigo = prompt("Valor para Código:");
-        const newPrecio = prompt("Valor para Precio:");
+        const newColumn1 = prompt("Valor para Column1:");
+        const newColumn2 = prompt("Valor para Column2:");
+        const newColumn3 = prompt("Valor para Column3:");
 
         fetch(scriptUrl, {
           method: 'POST',
           body: JSON.stringify({
             action: 'add',
-            record: {Producto: newProducto, Código: newCódigo, Precio: newPrecio}
+            record: {Column1: newColumn1, Column2: newColumn2, Column3: newColumn3}
           })
         }).then(response => response.json())
           .then(() => loadRecords());
