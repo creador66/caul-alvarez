@@ -1,22 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>CRUD App</title>
+  <title>Update Google Sheets</title>
   <script>
-    const BASE_URL = 'https://script.google.com/macros/s/AKfycbyus5_M6Tfs-cbJILTwbyWXTcn9kEl7eS03_a3DEFdqSCwa6bkMiiaE9lVWChT_gc6-/exec'; // URL de Google Apps Script
+    const BASE_URL = 'https://script.google.com/macros/library/d/1EGfR1RieuoUPoBq1XTvucIr04w3I6KPwSmTDV-fxm7tQYPqnyDve2LCU/6'; // Reemplaza con tu URL de Google Apps Script
 
-    async function sendRequest(action, data = {}) {
+    async function updateCell() {
       try {
         const response = await fetch(BASE_URL, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ action, ...data })
+          }
         });
         const result = await response.json();
         console.log(result);
-        alert(JSON.stringify(result));
+        alert(result.message);
       } catch (error) {
         console.error('Error:', error);
         alert('An error occurred');
@@ -24,18 +23,12 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('create').addEventListener('click', () => sendRequest('create', { name: 'John Doe', age: 30 }));
-      document.getElementById('read').addEventListener('click', () => sendRequest('read'));
-      document.getElementById('update').addEventListener('click', () => sendRequest('update', { id: 1, name: 'Jane Doe' }));
-      document.getElementById('delete').addEventListener('click', () => sendRequest('delete', { id: 1 }));
+      document.getElementById('update').addEventListener('click', updateCell);
     });
   </script>
 </head>
 <body>
-  <h1>CRUD Operations</h1>
-  <button id="create">Create</button>
-  <button id="read">Read</button>
-  <button id="update">Update</button>
-  <button id="delete">Delete</button>
+  <h1>Update Google Sheets</h1>
+  <button id="update">Update Cell A1</button>
 </body>
 </html>
