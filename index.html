@@ -3,44 +3,31 @@
 <head>
   <title>CRUD App</title>
   <script>
-    const BASE_URL = 'https://script.google.com/macros/s/AKfycbyus5_M6Tfs-cbJILTwbyWXTcn9kEl7eS03_a3DEFdqSCwa6bkMiiaE9lVWChT_gc6-/exec'; // Reemplaza con la URL de tu Google Apps Script
+    const BASE_URL = 'https://script.google.com/macros/s/AKfycbyus5_M6Tfs-cbJILTwbyWXTcn9kEl7eS03_a3DEFdqSCwa6bkMiiaE9lVWChT_gc6-/exec'; // Reemplaza con tu URL de Google Apps Script
 
     async function sendRequest(action, data = {}) {
-      const response = await fetch(BASE_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ action, ...data })
-      });
-      return response.json();
-    }
-
-    async function createData() {
-      const result = await sendRequest('create', { name: 'John Doe', age: 30 });
-      console.log(result);
-    }
-
-    async function readData() {
-      const result = await sendRequest('read');
-      console.log(result);
-    }
-
-    async function updateData() {
-      const result = await sendRequest('update', { id: 1, name: 'Jane Doe' });
-      console.log(result);
-    }
-
-    async function deleteData() {
-      const result = await sendRequest('delete', { id: 1 });
-      console.log(result);
+      try {
+        const response = await fetch(BASE_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ action, ...data })
+        });
+        const result = await response.json();
+        console.log(result);
+        alert(JSON.stringify(result));
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred');
+      }
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('create').addEventListener('click', createData);
-      document.getElementById('read').addEventListener('click', readData);
-      document.getElementById('update').addEventListener('click', updateData);
-      document.getElementById('delete').addEventListener('click', deleteData);
+      document.getElementById('create').addEventListener('click', () => sendRequest('create', { name: 'John Doe', age: 30 }));
+      document.getElementById('read').addEventListener('click', () => sendRequest('read'));
+      document.getElementById('update').addEventListener('click', () => sendRequest('update', { id: 1, name: 'Jane Doe' }));
+      document.getElementById('delete').addEventListener('click', () => sendRequest('delete', { id: 1 }));
     });
   </script>
 </head>
