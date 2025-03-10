@@ -1,34 +1,177 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>Update Google Sheets</title>
-  <script>
-    const BASE_URL = 'https://script.google.com/macros/library/d/1EGfR1RieuoUPoBq1XTvucIr04w3I6KPwSmTDV-fxm7tQYPqnyDve2LCU/6'; // Reemplaza con tu URL de Google Apps Script
-
-    async function updateCell() {
-      try {
-        const response = await fetch(BASE_URL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        const result = await response.json();
-        console.log(result);
-        alert(result.message);
-      } catch (error) {
-        console.error('Error:', error);
-        alert('An error occurred');
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datos Bancarios Citibanamex</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #1a237e;
+      --secondary: #ffd700;
+      --background: #f8f9fa;
+    }
+    body {
+      font-family: 'Roboto', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background: var(--background);
+      padding: 20px;
+    }
+    .contenedor {
+      background: white;
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 500px;
+      border: 2px solid var(--primary);
+    }
+    .info {
+      padding: 10px;
+      margin: 20px 0;
+      border-left: 4px solid var(--secondary);
+      background: #f8f9fa;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
+    .info:hover {
+      transform: translateX(10px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+    .info strong {
+      color: var(--primary);
+      min-width: 70px;
+      display: inline-block;
+    }
+    .info:hover strong {
+      color: #0d47a1;
+    }
+    .btn-copiar {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .btn-copiar:hover {
+      background: #0d47a1;
+    }
+    .notificacion {
+      position: fixed;
+      top: 25px;
+      right: -100%;
+      background: #4CAF50;
+      color: white;
+      padding: 15px 25px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      transition: right 0.5s ease;
+    }
+    .notificacion.mostrar {
+      right: 25px;
+    }
+    @media (max-width: 480px) {
+      .contenedor {
+        padding: 20px;
+      }
+      .info {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .btn-copiar {
+        margin-top: 10px;
       }
     }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('update').addEventListener('click', updateCell);
-    });
-  </script>
+  </style>
 </head>
 <body>
-  <h1>Update Google Sheets</h1>
-  <button id="update">Update Cell A1</button>
+  <div class="contenedor">
+    <h2 style="color: var(--primary); text-align: center; margin-bottom: 30px;">
+      🏦 Datos Bancario BBVA
+    </h2>
+
+    <div class="info">
+      <div>
+        <strong>Banco:</strong> <span class="valor">BBVA</span>
+      </div>
+      <button onclick="copiarAlPortapapeles(this)" class="btn-copiar">Copiar</button>
+    </div>
+
+    <div class="info">
+      <div>
+        <strong>Cuenta:</strong> <span class="valor">4152 3140 4421 6003</span>
+      </div>
+      <button onclick="copiarAlPortapapeles(this)" class="btn-copiar">Copiar</button>
+    </div>
+
+    <div class="info">
+      <div>
+        <strong>Titular:</strong> <span class="valor">Andry Mallely Martínez García</span>
+      </div>
+      <button onclick="copiarAlPortapapeles(this)" class="btn-copiar">Copiar</button>
+    </div>
+
+    <div class="info">
+      <div>
+        <strong>Teléfono:</strong> <span class="valor" id="telefono">938 184 4237</span>
+      </div>
+      <button onclick="copiarAlPortapapeles(this)" class="btn-copiar">Copiar</button>
+    </div>
+
+    <p style="color: #666; font-size: 0.9em; text-align: center; margin-top: 25px;">
+      ⚠️ Información sensible - Verificar antes de transferir
+    </p>
+
+    <div style="margin-top: 30px; text-align: center;">
+      <p style="font-weight: 500;">Después de realizar la transferencia, envía tu comprobante de pago a través de WhatsApp al número anterior.</p>
+      <a id="enviarComprobante" href="#" target="_blank" class="btn-copiar" style="text-decoration: none; display: inline-block; margin-top: 10px;">
+        Enviar Comprobante
+      </a>
+    </div>
+  </div>
+
+  <script>
+    function copiarAlPortapapeles(boton) {
+      // Obtiene el valor del <span> con la clase "valor" dentro del mismo contenedor
+      const valor = boton.parentElement.querySelector('.valor').textContent;
+      navigator.clipboard.writeText(valor)
+        .then(() => mostrarNotificacion('Copiado: ' + valor))
+        .catch(err => console.error('Error al copiar:', err));
+    }
+    
+    function mostrarNotificacion(mensaje) {
+      const notificacion = document.createElement('div');
+      notificacion.className = 'notificacion';
+      notificacion.textContent = mensaje;
+      
+      document.body.appendChild(notificacion);
+      setTimeout(() => notificacion.classList.add('mostrar'), 100);
+      setTimeout(() => {
+        notificacion.classList.remove('mostrar');
+        setTimeout(() => notificacion.remove(), 500);
+      }, 2000);
+    }
+    
+    // Actualiza el enlace de WhatsApp utilizando el número definido en el <span id="telefono">
+    document.addEventListener('DOMContentLoaded', function() {
+      const telefono = document.getElementById('telefono').textContent.trim();
+      // Elimina espacios y otros caracteres no numéricos
+      const telefonoLimpio = telefono.replace(/\D/g, '');
+      // Prependiendo el código de país (52 para México) si es necesario:
+      const numeroCompleto = telefonoLimpio.startsWith("52") ? telefonoLimpio : "52" + telefonoLimpio;
+      const mensaje = encodeURIComponent('Hola, ya realicé la transferencia. Adjunto el comprobante.');
+      const enlace = document.getElementById('enviarComprobante');
+      enlace.href = `https://wa.me/${numeroCompleto}?text=${mensaje}`;
+    });
+  </script>
 </body>
 </html>
