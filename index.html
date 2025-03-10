@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Datos Bancarios Citibanamex</title>
+  <title>Datos Bancarios</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
@@ -30,6 +30,48 @@
       max-width: 500px;
       border: 2px solid var(--primary);
     }
+    /* Instrucciones */
+    #instrucciones {
+      text-align: center;
+      margin-bottom: 20px;
+      font-size: 1em;
+      color: #333;
+    }
+    /* Botones para seleccionar banco */
+    #bancoSelector {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .copel{
+     background: yellow;
+      color: #000000;
+      border: none;
+      padding: 12px 20px;
+      margin: 0 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      font-size: 1.1em;
+    }
+    .btn-seleccion{
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      margin: 0 8px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      font-size: 1.1em;
+    }
+    .btn-seleccion:hover {
+      background: #0d47a1;
+      transform: scale(1.05);
+    }
+    .btn-seleccion.activo {
+      background: #0d47a1;
+    }
+    /* Estilos para la información */
     .info {
       padding: 10px;
       margin: 20px 0;
@@ -49,9 +91,6 @@
       color: var(--primary);
       min-width: 70px;
       display: inline-block;
-    }
-    .info:hover strong {
-      color: #0d47a1;
     }
     .btn-copiar {
       background: var(--primary);
@@ -95,36 +134,51 @@
 </head>
 <body>
   <div class="contenedor">
-    <h2 style="color: var(--primary); text-align: center; margin-bottom: 30px;">
-      🏦 Datos Bancario BBVA
+    <!-- Instrucciones para el usuario -->
+    <div id="instrucciones">
+      <p>Selecciona el banco con el que deseas realizar la transferencia.</p>
+    </div>
+
+    <!-- Selector de bancos -->
+    <div id="bancoSelector">
+      <button class="btn-seleccion activo" onclick="seleccionarBanco('BBVA')">BBVA</button>
+      <button class="copel" onclick="seleccionarBanco('Coppel')">Coppel</button>
+    </div>
+
+    <h2 id="headingBanco" style="color: var(--primary); text-align: center; margin-bottom: 30px;">
+      🏦 Datos Bancarios BBVA
     </h2>
 
-    <div class="info">
-      <div>
-        <strong>Banco:</strong> <span class="valor">BBVA</span>
+    <!-- Información específica del banco -->
+    <div id="cuentaBanco">
+      <div class="info">
+        <div>
+          <strong>Banco:</strong> <span class="valor" id="bancoNombre">BBVA</span>
+        </div>
+        <button onclick="copiarAlPortapapeles(document.getElementById('bancoNombre'))" class="btn-copiar">Copiar</button>
       </div>
-      <button onclick="copiarAlPortapapeles(this)" class="btn-copiar">Copiar</button>
+
+      <div class="info">
+        <div>
+          <strong>Cuenta:</strong> <span class="valor" id="cuentaNumero">4152 3140 4421 6003</span>
+        </div>
+        <button onclick="copiarAlPortapapeles(document.getElementById('cuentaNumero'))" class="btn-copiar">Copiar</button>
+      </div>
     </div>
 
+    <!-- Información común -->
     <div class="info">
       <div>
-        <strong>Cuenta:</strong> <span class="valor">4152 3140 4421 6003</span>
+        <strong>Titular:</strong> <span class="valor" id="titular">Andry Mallely Martínez García</span>
       </div>
-      <button onclick="copiarAlPortapapeles(this)" class="btn-copiar">Copiar</button>
-    </div>
-
-    <div class="info">
-      <div>
-        <strong>Titular:</strong> <span class="valor">Andry Mallely Martínez García</span>
-      </div>
-      <button onclick="copiarAlPortapapeles(this)" class="btn-copiar">Copiar</button>
+      <button onclick="copiarAlPortapapeles(document.getElementById('titular'))" class="btn-copiar">Copiar</button>
     </div>
 
     <div class="info">
       <div>
         <strong>Teléfono:</strong> <span class="valor" id="telefono">938 184 4237</span>
       </div>
-      <button onclick="copiarAlPortapapeles(this)" class="btn-copiar">Copiar</button>
+      <button onclick="copiarAlPortapapeles(document.getElementById('telefono'))" class="btn-copiar">Copiar</button>
     </div>
 
     <p style="color: #666; font-size: 0.9em; text-align: center; margin-top: 25px;">
@@ -140,14 +194,44 @@
   </div>
 
   <script>
-    function copiarAlPortapapeles(boton) {
-      // Obtiene el valor del <span> con la clase "valor" dentro del mismo contenedor
-      const valor = boton.parentElement.querySelector('.valor').textContent;
+    // Datos de cada banco
+    const bancos = {
+      "BBVA": {
+        banco: "BBVA",
+        cuenta: "4152 3140 4421 6003"
+      },
+      "Coppel": {
+        banco: "Coppel",
+        cuenta: "4169 1608 2591 2943"  // Reemplaza por la cuenta real de Coppel
+      }
+    };
+
+    // Función para actualizar la información del banco seleccionado
+    function seleccionarBanco(bancoSeleccionado) {
+      const datos = bancos[bancoSeleccionado];
+      document.getElementById('bancoNombre').textContent = datos.banco;
+      document.getElementById('cuentaNumero').textContent = datos.cuenta;
+      document.getElementById('headingBanco').textContent = `🏦 Datos Bancarios ${datos.banco}`;
+
+      // Actualiza visualmente el botón activo
+      const botones = document.querySelectorAll('.btn-seleccion');
+      botones.forEach(btn => btn.classList.remove('activo'));
+      botones.forEach(btn => {
+         if (btn.textContent.trim() === bancoSeleccionado) {
+            btn.classList.add('activo');
+         }
+      });
+    }
+
+    // Función para copiar el contenido del elemento al portapapeles
+    function copiarAlPortapapeles(elemento) {
+      const valor = elemento.textContent;
       navigator.clipboard.writeText(valor)
         .then(() => mostrarNotificacion('Copiado: ' + valor))
         .catch(err => console.error('Error al copiar:', err));
     }
-    
+
+    // Función para mostrar notificaciones
     function mostrarNotificacion(mensaje) {
       const notificacion = document.createElement('div');
       notificacion.className = 'notificacion';
@@ -164,9 +248,7 @@
     // Actualiza el enlace de WhatsApp utilizando el número definido en el <span id="telefono">
     document.addEventListener('DOMContentLoaded', function() {
       const telefono = document.getElementById('telefono').textContent.trim();
-      // Elimina espacios y otros caracteres no numéricos
       const telefonoLimpio = telefono.replace(/\D/g, '');
-      // Prependiendo el código de país (52 para México) si es necesario:
       const numeroCompleto = telefonoLimpio.startsWith("52") ? telefonoLimpio : "52" + telefonoLimpio;
       const mensaje = encodeURIComponent('Hola, ya realicé la transferencia. Adjunto el comprobante.');
       const enlace = document.getElementById('enviarComprobante');
