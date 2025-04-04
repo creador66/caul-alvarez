@@ -2,258 +2,799 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Datos Bancarios</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Menú del Restaurante Virtual</title>
+  <!-- Fuente moderna -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <!-- CDN Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
+    /* Variables de color actualizadas para un estilo suave y elegante */
     :root {
-      --primary: #1a237e;
-      --secondary: #ffd700;
-      --background: #f8f9fa;
+      --color-fondo: #f7f7f7;
+      --color-texto: #444;
+      --color-principal: #FF6F61; /* tono pastel y cálido */
+      --color-secundario: #ffffff;
+      --color-footer: #333;
+      --color-footer-text: #fff;
+      --color-hover: rgba(255, 111, 97, 0.15);
+      --color-scrollbar: #FF6F61;
     }
+
+    /* Reset y configuración base */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Roboto', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      margin: 0;
-      background: var(--background);
-      padding: 20px;
+      background: var(--color-fondo);
+      color: var(--color-texto);
+      overflow-x: hidden;
+      line-height: 1.6;
+      padding-top: 80px;
     }
+
+    /* Contenedor principal con sombra suave y bordes redondeados */
     .contenedor {
-      background: white;
+      max-width: 1200px;
+      margin: 2rem auto;
+      background: var(--color-secundario);
       border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      position: relative;
+      padding-bottom: 2rem;
+    }
+
+    /* Header sticky con logo y fondo semitransparente */
+    .contenedor-header {
+      background: rgba(255, 255, 255, 0.95);
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .logo {
+      background: #000000;
+      height: 50px;
+      width: 50px;
+      margin-right: 1rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    header nav {
+      display: flex;
+      gap: 1rem;
+      background: var(--color-secundario);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Botón de carrito con transiciones suaves */
+    .btn-carrito {
+      background: var(--color-principal);
+      color: #ffffff;             
+      border: none;    
+      padding: 10px 15px;        
+      font-size: 16px;            
+      border-radius: 8px;         
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
+      transition: box-shadow 0.3s ease, transform 0.3s ease; 
+    }
+
+    header nav button {
+      background: #ffffff;
+      color: var(--color-texto);
+      border: none;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      font-size: 0.9em;
+      border-radius: 8px;
+      transition: background 0.3s ease, transform 0.3s ease;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    header nav button:hover {
+      background: var(--color-principal);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+
+    /* Sección Categorías: Grid responsivo y elegante */
+    .categorias {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 1rem;
       width: 100%;
-      max-width: 500px;
-      border: 2px solid var(--primary);
+      padding: 1rem;
     }
-    /* Instrucciones */
-    #instrucciones {
+    .categoria {
+      background: #fafafa;
+      border-radius: 10px;
+      padding: 0.5rem;
+      display: flex;
+      flex-direction: column;
+      height: 200px;
+    }
+    .categoria h2 {
       text-align: center;
-      margin-bottom: 20px;
-      font-size: 1em;
-      color: #333;
+      color: var(--color-principal);
+      font-size: 15px;
+      margin-bottom: 0.5rem;
+      white-space: normal;
     }
-    /* Botones para seleccionar banco */
-    #bancoSelector {
-      text-align: center;
-      margin-bottom: 20px;
+    .menu-item {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 0 0.5rem;
     }
-    .copel{
-     background: yellow;
-      color: #000000;
-      border: none;
-      padding: 12px 20px;
-      margin: 0 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.3s ease;
-      font-size: 1.1em;
+
+    .menu-item::-webkit-scrollbar {
+      width: 2px;
     }
-    .btn-seleccion{
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      margin: 0 8px;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.3s ease;
-      font-size: 1.1em;
+
+    .menu-item::-webkit-scrollbar-thumb {
+      background: var(--color-scrollbar);
+      border-radius: 3px;
     }
-    .btn-seleccion:hover {
-      background: #0d47a1;
-      transform: scale(1.05);
-    }
-    .btn-seleccion.activo {
-      background: #0d47a1;
-    }
-    /* Estilos para la información */
-    .info {
-      padding: 10px;
-      margin: 20px 0;
-      border-left: 4px solid var(--secondary);
-      background: #f8f9fa;
-      border-radius: 8px;
+
+    .productos {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      transition: all 0.3s ease;
-    }
-    .info:hover {
-      transform: translateX(10px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-    }
-    .info strong {
-      color: var(--primary);
-      min-width: 70px;
-      display: inline-block;
-    }
-    .btn-copiar {
-      background: var(--primary);
-      color: white;
-      border: none;
-      padding: 8px 12px;
-      border-radius: 5px;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
       cursor: pointer;
       transition: background 0.3s ease;
+      overflow: auto;
     }
-    .btn-copiar:hover {
-      background: #0d47a1;
+
+    .productos:hover {
+      background: var(--color-hover);
     }
+
+    .productos .item-name {
+      font-size: 13px;
+      flex: 1;
+      margin-left: 8px;
+    }
+
+    .productos .item-price {
+      font-size: 13px;
+      font-weight: bold;
+      color: var(--color-principal);
+    }
+
+    .btn-agregar {
+      background: var(--color-principal);
+      color: var(--color-secundario);
+      border: none;
+      padding: 0.4rem 0.8rem;
+      cursor: pointer;
+      font-size: 13px;
+      border-radius: 6px;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-agregar:hover {
+      background: #e85c54;
+      transform: scale(1.02);
+    }
+
+    /* Modal reutilizable con bordes redondeados y sombra suave */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(4px);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .modal-content {
+      background: var(--color-secundario);
+      padding: 2rem;
+      border-radius: 20px;
+      max-width: 800px;
+      width: 100%;
+      position: relative;
+      transform: scale(0.8);
+      opacity: 0;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    .modal-active {
+      transform: scale(1);
+      opacity: 1;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--color-principal);
+    }
+
+    /* Footer minimalista */
+    .footer {
+      background-color: var(--color-footer);
+      color: var(--color-footer-text);
+      text-align: center;
+      padding: 0.8rem;
+      font-size: 0.8rem;
+    }
+
+    /* Estilos para formularios */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.3rem;
+      font-weight: bold;
+    }
+
+    .form-group input, 
+    .form-group textarea {
+      width: 100%;
+      padding: 0.6rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    /* Slider moderno sin botones y con animación sutil */
+    .slider {
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
+      margin: 1rem auto;
+      touch-action: pan-y;
+      border-radius: 15px;
+    }
+
+    .slider-container {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slide {
+      position: relative;
+      min-width: 100%;
+      box-sizing: border-box;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      border-radius: 15px;
+    }
+
+    /* Texto animado en cada slide */
+    .slide-text {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      font-size: 1.8rem;
+      color: #fff;
+      opacity: 0;
+      animation: fadeInUp 1s forwards;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    }
+
+    @keyframes fadeInUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    /* Estilos para el carrito en el modal */
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .cart-item p {
+      margin: 0;
+      font-size: 14px;
+    }
+
+    .cart-item button {
+      background: #d9534f;
+      border: none;
+      color: #fff;
+      padding: 0.3rem 0.7rem;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      transition: background 0.3s ease;
+    }
+
+    .cart-item button:hover {
+      background: #c9302c;
+    }
+
+    .cart-total {
+      text-align: right;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+
+    /* Sección de Información Adicional */
+    .informacion {
+      background: #f0f0f0;
+      padding: 1.5rem;
+      margin: 1rem;
+      border-radius: 12px;
+      font-size: 0.95em;
+      color: #555;
+    }
+
+    .informacion h3 {
+      margin-bottom: 0.8rem;
+      color: var(--color-principal);
+    }
+
+    .informacion p {
+      margin-bottom: 0.8rem;
+      line-height: 1.4;
+    }
+
+    .informacion a {
+      color: var(--color-principal);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .informacion a:hover {
+      color: #e85c54;
+    }
+
+    /* Estilos para notificaciones */
     .notificacion {
       position: fixed;
-      top: 25px;
-      right: -100%;
-      background: #4CAF50;
-      color: white;
-      padding: 15px 25px;
+      top: 20px;
+      right: 20px;
+      background: var(--color-principal);
+      color: #fff;
+      padding: 12px 20px;
       border-radius: 8px;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      transition: right 0.5s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      z-index: 2000;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      font-size: 14px;
     }
     .notificacion.mostrar {
-      right: 25px;
+      opacity: 1;
+      transform: translateY(0);
     }
-    @media (max-width: 480px) {
-      .contenedor {
-        padding: 20px;
-      }
-      .info {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .btn-copiar {
-        margin-top: 10px;
-      }
+    .notificacion.error {
+      background: #d9534f;
+    }
+    .notificacion.exito {
+      background: #28a745;
     }
   </style>
 </head>
 <body>
-  <div class="contenedor">
-    <!-- Instrucciones para el usuario -->
-    <div id="instrucciones">
-      <p>Selecciona el banco con el que deseas realizar la transferencia.</p>
-    </div>
+  <!-- Contenedor de notificaciones (opcional si se quiere gestionar varios mensajes) -->
+  <div id="notification-container"></div>
+  <!-- Notificación individual -->
+  <div id="notificacion" class="notificacion"></div>
 
-    <!-- Selector de bancos -->
-    <div id="bancoSelector">
-      <button class="btn-seleccion activo" onclick="seleccionarBanco('BBVA')">BBVA</button>
-      <button class="copel" onclick="seleccionarBanco('Coppel')">Coppel</button>
-    </div>
-
-    <h2 id="headingBanco" style="color: var(--primary); text-align: center; margin-bottom: 30px;">
-      🏦 Datos Bancarios BBVA
-    </h2>
-
-    <!-- Información específica del banco -->
-    <div id="cuentaBanco">
-      <div class="info">
-        <div>
-          <strong>Banco:</strong> <span class="valor" id="bancoNombre">BBVA</span>
-        </div>
-        <button onclick="copiarAlPortapapeles(document.getElementById('bancoNombre'))" class="btn-copiar">Copiar</button>
-      </div>
-
-      <div class="info">
-        <div>
-          <strong>Cuenta:</strong> <span class="valor" id="cuentaNumero">4152 3140 4421 6003</span>
-        </div>
-        <button onclick="copiarAlPortapapeles(document.getElementById('cuentaNumero'))" class="btn-copiar">Copiar</button>
-      </div>
-    </div>
-
-    <!-- Información común -->
-    <div class="info">
-      <div>
-        <strong>Titular:</strong> <span class="valor" id="titular">Andry Mallely Martínez García</span>
-      </div>
-      <button onclick="copiarAlPortapapeles(document.getElementById('titular'))" class="btn-copiar">Copiar</button>
-    </div>
-
-    <div class="info">
-      <div>
-        <strong>Teléfono:</strong> <span class="valor" id="telefono">938 184 4237</span>
-      </div>
-      <button onclick="copiarAlPortapapeles(document.getElementById('telefono'))" class="btn-copiar">Copiar</button>
-    </div>
-
-    <p style="color: #666; font-size: 0.9em; text-align: center; margin-top: 25px;">
-      ⚠️ Información sensible - Verificar antes de transferir
-    </p>
-
-    <div style="margin-top: 30px; text-align: center;">
-      <p style="font-weight: 500;">Después de realizar la transferencia, envía tu comprobante de pago a través de WhatsApp al número anterior.</p>
-      <a id="enviarComprobante" href="#" target="_blank" class="btn-copiar" style="text-decoration: none; display: inline-block; margin-top: 10px;">
-        Enviar Comprobante
-      </a>
+  <!-- Modal reutilizable -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal-content" id="modalContent">
+      <button class="close-btn" onclick="closeModal()">&times;</button>
+      <div class="modal-body" id="modalBody"></div>
     </div>
   </div>
 
+  <!-- Encabezado sticky con logo y botón de carrito -->
+  <header>
+    <div class="contenedor-header">
+      <div style="display: flex; align-items: center;">
+        <img src="https://res.cloudinary.com/dedltkiwa/image/upload/v1743806565/Carb%C3%B3n_y_Beige_Simple_y_Circular_Evento_de_Ajedrez_Logo_20250404_163150_0000_2_kte7qe.png" alt="Logo" class="logo">
+      </div>
+      <button class="btn-carrito" id="btnCarrito" onclick="mostrarCarritoModal()">
+        Carrito (0 piezas - $0.00)
+      </button>
+    </div>
+    <nav>
+      <button onclick="document.getElementById('categorias').scrollIntoView({ behavior: 'smooth' });">
+        Categorías
+      </button>
+      <button onclick="document.getElementById('informacion').scrollIntoView({ behavior: 'smooth' });">
+        Información
+      </button>
+      <button onclick="mostrarInfoTransferencia()">Transferencia</button>
+    </nav>
+  </header>
+  <!-- Contenedor principal -->
+  <div class="contenedor">
+    <!-- Sección Slider -->
+    <section class="slider">
+      <div class="slider-container" id="slider-container">
+        <!-- Se generarán dinámicamente con el JSON -->
+      </div>
+    </section>
+    <section class="informacion" style="text-align: center;">
+      <h1>MENU</h1>
+    </section>
+    <!-- Sección Categorías -->
+    <section class="categorias" id="categorias">
+      <!-- Se generan dinámicamente -->
+    </section>
+    <section class="informacion" id="informacion">
+      <h3>Información Adicional</h3>
+      <p>Bienvenido a nuestro Restaurante Virtual. Aquí encontrarás información sobre nuestros servicios, horarios y promociones.</p>
+      <p>Para más detalles, contáctanos en: <a href="mailto: andymallely@gmail.com">andymallely@gmail.com</a></p>
+      <p>Le ofrecemos atención personalizada desde <a>las 6:00 p.m. hasta las 10:00 p.m.</a></p>
+      <p>Visítanos en <a>Fraccionamiento Capistrano, Calle Oriente Número: 22</a></p>
+      <p>Síguenos en nuestras redes sociales:</p>
+      <p>
+        <a href="https://www.facebook.com/share/1EQS6NyTqV/" target="_blank"><i class="fab fa-facebook"></i> Facebook</a> |
+        <a href="https://www.instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a> |
+        <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+      </p>
+    </section>
+    <!-- Footer -->
+    <footer class="footer" id="footer">
+      © 2025 IAEgo. (Andry) Todos los derechos reservados. <br>
+      <a href="https://wa.me/9382502171" target="_blank" style="color: var(--color-footer-text); text-decoration: none;">
+        <i class="fab fa-whatsapp"></i> Contacta al programador
+      </a>
+    </footer>
+  </div>
+
   <script>
-    // Datos de cada banco
-    const bancos = {
-      "BBVA": {
-        banco: "BBVA",
-        cuenta: "4152 3140 4421 6003"
-      },
-      "Coppel": {
-        banco: "Coppel",
-        cuenta: "4169 1608 2591 2943"  // Reemplaza por la cuenta real de Coppel
-      }
+    // Función para mostrar notificaciones
+    function mostrarNotificacion(mensaje, tipo = 'exito') {
+      const noti = document.getElementById("notificacion");
+      noti.textContent = mensaje;
+      noti.className = `notificacion mostrar ${tipo}`;
+      setTimeout(() => {
+        noti.classList.remove("mostrar");
+      }, 3000);
+    }
+
+    // Funciones de almacenamiento local
+    const LS = {
+      get: key => JSON.parse(localStorage.getItem(key)),
+      set: (key, data) => localStorage.setItem(key, JSON.stringify(data))
     };
 
-    // Función para actualizar la información del banco seleccionado
-    function seleccionarBanco(bancoSeleccionado) {
-      const datos = bancos[bancoSeleccionado];
-      document.getElementById('bancoNombre').textContent = datos.banco;
-      document.getElementById('cuentaNumero').textContent = datos.cuenta;
-      document.getElementById('headingBanco').textContent = `🏦 Datos Bancarios ${datos.banco}`;
+    // Objeto global con datos del menú
+    const data = {};
+    // Array global para el carrito
+    let carrito = [];
 
-      // Actualiza visualmente el botón activo
-      const botones = document.querySelectorAll('.btn-seleccion');
-      botones.forEach(btn => btn.classList.remove('activo'));
-      botones.forEach(btn => {
-         if (btn.textContent.trim() === bancoSeleccionado) {
-            btn.classList.add('activo');
-         }
+    // Actualiza el botón de carrito con total de piezas y monto total
+    function actualizarBotonCarrito() {
+      const totalPiezas = carrito.length;
+      const totalMonto = carrito.reduce((sum, item) => sum + parseFloat(item.precio), 0);
+      document.getElementById('btnCarrito').innerText =
+        `Carrito (${totalPiezas} piezas - $${totalMonto.toFixed(2)})`;
+    }
+
+    // Inicializa la interfaz con los datos recibidos
+    function inicializarInterfaz() {
+      if (!data || !data.productos) {
+        console.error("No hay datos para inicializar la interfaz.");
+      } else {
+        const categorias = {};
+        data.productos.forEach(producto => {
+          if (producto.categoria) {
+            categorias[producto.categoria] ?
+              categorias[producto.categoria].push(producto) :
+              categorias[producto.categoria] = [producto];
+          }
+        });
+        generarCategoriasHTML(categorias);
+      }
+    }
+
+    // JSON de imágenes del slider con texto
+    const sliderImages = [
+      { src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5Py4lvQPfff72mSmob1N_Yp1jvBfZybFJuGbcuujFpciSObExFDmmTiM&s=10", alt: "Deliciosa pizza 1", text: "¡Bienvenido!" },
+      { src: "https://res.cloudinary.com/dpnm1c0zx/image/upload/v1743618012/FB_IMG_1743617549486_jlxtqf.jpg", alt: "Deliciosa pizza 2", text: "Disfruta de nuestras pizzas" },
+      { src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-dUUhLhoc_M5AD1l-q1YHyh2J6pEfWb42vZAfssr_S7iJXQWgi4OJM0Ak&s=10", alt: "Deliciosa pizza 3", text: "Sabor y tradición" }
+    ];
+
+    const sliderContainer = document.getElementById("slider-container");
+    // Genera dinámicamente cada slide a partir del JSON
+    sliderContainer.innerHTML = sliderImages.length 
+      ? sliderImages.map(img => `
+          <div class="slide">
+            <img src="${img.src}" alt="${img.alt}">
+            <div class="slide-text">${img.text}</div>
+          </div>`).join('')
+      : `<div class="slide"><p>No hay imágenes disponibles</p></div>`;
+
+    let currentIndex = 0;
+    const slides = document.querySelectorAll(".slide");
+
+    function showSlide(index) {
+      currentIndex = index < 0 
+        ? slides.length - 1 
+        : index >= slides.length 
+          ? 0 
+          : index;
+      sliderContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
+    }
+
+    // Slider automático cada 5 segundos
+    setInterval(() => showSlide(currentIndex + 1), 5000);
+
+    // Eventos touch para controlar el slider con el dedo
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const slider = document.querySelector('.slider');
+
+    slider.addEventListener('touchstart', function(event) {
+      touchStartX = event.changedTouches[0].screenX;
+    }, false);
+
+    slider.addEventListener('touchend', function(event) {
+      touchEndX = event.changedTouches[0].screenX;
+      handleGesture();
+    }, false);
+
+    function handleGesture() {
+      const swipeDistance = touchEndX - touchStartX;
+      if (swipeDistance < -50) {
+        // Swipe hacia la izquierda: siguiente slide
+        showSlide(currentIndex + 1);
+      } else if (swipeDistance > 50) {
+        // Swipe hacia la derecha: slide anterior
+        showSlide(currentIndex - 1);
+      }
+    }
+
+    // Genera HTML para cada categoría
+    function generarCategoriasHTML(categorias) {
+      const contenedorCategorias = document.getElementById("categorias");
+      contenedorCategorias.innerHTML = "";
+      Object.keys(categorias).forEach(categoria => {
+        const categoriaHTML = document.createElement("div");
+        categoriaHTML.classList.add("categoria");
+        const titulo = document.createElement("h2");
+        titulo.textContent = categoria;
+        categoriaHTML.appendChild(titulo);
+        const menuItem = document.createElement("div");
+        menuItem.classList.add("menu-item");
+        menuItem.id = categoria;
+        categoriaHTML.appendChild(menuItem);
+        contenedorCategorias.appendChild(categoriaHTML);
+        crearProductosHTML(menuItem.id, categorias[categoria]);
       });
     }
 
-    // Función para copiar el contenido del elemento al portapapeles
-    function copiarAlPortapapeles(elemento) {
-      const valor = elemento.textContent;
-      navigator.clipboard.writeText(valor)
-        .then(() => mostrarNotificacion('Copiado: ' + valor))
-        .catch(err => console.error('Error al copiar:', err));
+    // Crea la lista de productos en la categoría con imagen en miniatura
+    function crearProductosHTML(containerId, productos) {
+      const contenedor = document.getElementById(containerId);
+      if (contenedor) {
+        contenedor.innerHTML = "";
+        productos.forEach(producto => {
+          const precio = parseFloat(producto.precio) || 0;
+          const productoDiv = document.createElement("div");
+          productoDiv.classList.add("productos");
+          productoDiv.onclick = () => info(producto.id);
+          productoDiv.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}" style="width:30px;border-radius: 8px;  height:auto; margin-right:8px;  ">
+            <span class="item-name">${producto.nombre}</span>
+            <span class="item-price">$${precio.toFixed(1)}</span>
+          `;
+          contenedor.appendChild(productoDiv);
+        });
+      }
     }
 
-    // Función para mostrar notificaciones
-    function mostrarNotificacion(mensaje) {
-      const notificacion = document.createElement('div');
-      notificacion.className = 'notificacion';
-      notificacion.textContent = mensaje;
-      
-      document.body.appendChild(notificacion);
-      setTimeout(() => notificacion.classList.add('mostrar'), 100);
-      setTimeout(() => {
-        notificacion.classList.remove('mostrar');
-        setTimeout(() => notificacion.remove(), 500);
-      }, 2000);
+    // Abre modal con detalles del producto
+    function info(id) {
+      openModal();
+      const producto = data.productos.find(prod => prod.id === id);
+      if (producto) {
+        document.getElementById('modalBody').innerHTML = `
+          <img src="${producto.imagen}" alt="${producto.nombre}" style="width:100%; border-radius:10px; margin-bottom:1rem;">
+          <h2>${producto.nombre}</h2>
+          <p><strong>Precio:</strong> $${producto.precio.toFixed(1)}</p>
+          <p><strong>Descripción:</strong> ${producto.descripcion}</p>
+          <div class="form-group">
+            <label for="notaProducto">Nota para este producto (opcional):</label>
+            <input type="text" id="notaProducto" placeholder="Ej: sin algún ingrediente">
+          </div>
+          <button class="btn-agregar" onclick="agregarProductoDesdeModal(${producto.id})">Agregar al Carrito</button>
+        `;
+      } else {
+        mostrarNotificacion("Producto no encontrado.", "error");
+      }
     }
-    
-    // Actualiza el enlace de WhatsApp utilizando el número definido en el <span id="telefono">
-    document.addEventListener('DOMContentLoaded', function() {
-      const telefono = document.getElementById('telefono').textContent.trim();
-      const telefonoLimpio = telefono.replace(/\D/g, '');
-      const numeroCompleto = telefonoLimpio.startsWith("52") ? telefonoLimpio : "52" + telefonoLimpio;
-      const mensaje = encodeURIComponent('Hola, ya realicé la transferencia. Adjunto el comprobante.');
-      const enlace = document.getElementById('enviarComprobante');
-      enlace.href = `https://wa.me/${numeroCompleto}?text=${mensaje}`;
+
+    // Agrega producto al carrito
+    function agregarProductoDesdeModal(productoId) {
+      const nota = document.getElementById("notaProducto").value.trim();
+      const producto = data.productos.find(prod => prod.id === productoId);
+      if (producto) {
+        carrito.push({ id: producto.id, nombre: producto.nombre, precio: producto.precio, peticion: nota });
+        mostrarNotificacion(`${producto.nombre} se agregó al carrito.`, "exito");
+        actualizarBotonCarrito();
+        closeModal();
+      } else {
+        mostrarNotificacion("Producto no encontrado.", "error");
+      }
+    }
+
+    // Muestra el carrito dentro del modal
+    function mostrarCarritoModal() {
+      if (carrito.length === 0) {
+        openModal();
+        document.getElementById('modalBody').innerHTML = "<h2>Carrito</h2><p>El carrito está vacío.</p>";
+      } else {
+        let html = "<h2>Carrito</h2>";
+        carrito.forEach((item, index) => {
+          html += `
+            <div class="cart-item">
+              <p>${index + 1}. ${item.nombre} - $${parseFloat(item.precio).toFixed(1)} ${item.peticion ? "(" + item.peticion + ")" : ""}</p>
+              <button onclick="eliminarProducto(${index})">Eliminar</button>
+            </div>
+          `;
+        });
+        const total = carrito.reduce((sum, item) => sum + parseFloat(item.precio), 0);
+        html += `<p class="cart-total">Total: $${total.toFixed(2)}</p>`;
+        html += `<button class="btn-agregar" onclick="mostrarFormularioPedido()">Proceder con Pedido</button>`;
+        openModal();
+        document.getElementById('modalBody').innerHTML = html;
+      }
+    }
+
+    // Elimina un producto del carrito
+    const eliminarProducto = index => {
+      const nombreEliminado = carrito[index].nombre;
+      carrito.splice(index, 1);
+      actualizarBotonCarrito();
+      mostrarCarritoModal();
+      mostrarNotificacion(`${nombreEliminado} eliminado del carrito.`, "error");
+    };
+
+    // Muestra el formulario de pedido en el modal
+    function mostrarFormularioPedido() {
+      const direccionGuardada = LS.get("direccionEnvio") || "";
+      document.getElementById('modalBody').innerHTML = `
+        <h2>Confirmar Pedido</h2>
+        <form id="orderForm" onsubmit="event.preventDefault(); enviarPedidoFinal();">
+          <div class="form-group">
+            <label for="direccion">Dirección de envío:</label>
+            <input type="text" id="direccion" value="${direccionGuardada}" placeholder="La dirección se guardará" required>
+          </div>
+          <div class="form-group">
+            <label for="notaPedido">Nota adicional (opcional):</label>
+            <textarea id="notaPedido" rows="3"></textarea>
+          </div>
+          <button type="submit" class="btn-agregar">Confirmar Pedido</button>
+        </form>
+      `;
+    }
+
+    // Muestra información de pagos con transferencia en el modal
+    function mostrarInfoTransferencia() {
+      openModal();
+      document.getElementById('modalBody').innerHTML = `
+        <h2>Pagos con Transferencia</h2>
+        <p><strong>Banco:</strong> Coppel</p>
+        <p><strong>Cuenta:</strong> 4169 1608 2591 2943</p>
+        <p><strong>Banco:</strong> BBVA</p>
+        <p><strong>Cuenta:</strong> 4152 3140 4421 6003</p>
+        <p><strong>Titular:</strong> Andry Mallely Martínez García</p>
+        <p><strong>Teléfono:</strong> 938 184 4237</p>
+      `;
+    }
+
+    // Procesa y envía el pedido vía WhatsApp
+    function enviarPedidoFinal() {
+      const direccion = document.getElementById("direccion").value.trim();
+      if (!direccion) {
+        mostrarNotificacion("La dirección es obligatoria.", "error");
+      } else {
+        LS.set("direccionEnvio", direccion);
+        let mensaje = "¡Hola! Quiero realizar el siguiente pedido:%0A";
+        carrito.forEach((item, index) => {
+          mensaje += `${index + 1}. ${item.nombre} - $${parseFloat(item.precio).toFixed(1)}` + (item.peticion ? ` (${item.peticion})` : "") + "%0A";
+        });
+        mensaje += `%0ADirección de envío: ${direccion}%0A`;
+        mensaje += document.getElementById("notaPedido").value.trim() ? `%0ANota: ${document.getElementById("notaPedido").value.trim()}%0A` : "";
+        closeModal();
+        window.open(`https://wa.me/9381844237?text=${mensaje}`, "_blank");
+      }
+    }
+
+    // Funciones para abrir y cerrar el modal
+    function openModal() {
+      const modalOverlay = document.getElementById('modalOverlay');
+      const modalContent = document.getElementById('modalContent');
+      modalOverlay.style.display = 'flex';
+      setTimeout(() => modalContent.classList.add('modal-active'), 10);
+    }
+
+    function closeModal() {
+      const modalContent = document.getElementById('modalContent');
+      const modalOverlay = document.getElementById('modalOverlay');
+      modalContent.classList.remove('modal-active');
+      setTimeout(() => { modalOverlay.style.display = 'none'; }, 300);
+    }
+    document.getElementById('modalOverlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('modalOverlay')) {
+        closeModal();
+      }
     });
+
+    // Obtener datos desde GAS
+    async function obtenerDatosGAS() {
+      const urlGAS = "https://script.google.com/macros/s/AKfycbxbUpFOZFzpPHy8NKr5_2s9EO9eD048G4ep1eqN9QKM_Jbdifz8aujVi3v8ym_HrBV0/exec";
+      const formData = new FormData();
+      formData.append("id", "obtenerMenu");
+      try {
+        const response = await fetch(urlGAS, { method: "POST", body: formData });
+        if (!response.ok) {
+          throw new Error("Error en la respuesta del servidor");
+        }
+        const result = await response.json();
+        console.log("Menú obtenido:", result.data);
+        Object.assign(data, result.data);
+        LS.set("menu", result.data);
+        inicializarInterfaz();
+      } catch (error) {
+        console.error("Error al obtener los datos:", error);
+      }
+    }
+
+    // Cargar datos desde localStorage y obtener datos de GAS
+    const datosLocales = LS.get("menu");
+    if (datosLocales) {
+      Object.assign(data, datosLocales);
+      inicializarInterfaz();
+    }
+    obtenerDatosGAS();
   </script>
 </body>
 </html>
