@@ -9,25 +9,17 @@
   <!-- CDN Font Awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Variables de color actualizadas para un estilo suave y elegante */
     :root {
       --color-fondo: #f7f7f7;
       --color-texto: #444;
-      --color-principal: #FF6F61; /* tono pastel y cálido */
+      --color-principal: #FF6F61;
       --color-secundario: #ffffff;
       --color-footer: #333;
       --color-footer-text: #fff;
       --color-hover: rgba(255, 111, 97, 0.15);
       --color-scrollbar: #FF6F61;
     }
-
-    /* Reset y configuración base */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: 'Roboto', sans-serif;
       background: var(--color-fondo);
@@ -36,22 +28,18 @@
       line-height: 1.6;
       padding-top: 80px;
     }
-
-    /* Contenedor principal con sombra suave y bordes redondeados */
     .contenedor {
       max-width: 1200px;
       margin: 2rem auto;
       background: var(--color-secundario);
       border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
       overflow: hidden;
       position: relative;
       padding-bottom: 2rem;
     }
-
-    /* Header sticky con logo y fondo semitransparente */
     .contenedor-header {
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(255,255,255,0.95);
       height: 80px;
       display: flex;
       align-items: center;
@@ -64,9 +52,8 @@
       z-index: 100;
       border-bottom: 1px solid #ddd;
     }
-
     .logo {
-      background: #000000;
+      background: #000;
       height: 50px;
       width: 50px;
       margin-right: 1rem;
@@ -76,30 +63,26 @@
       justify-content: center;
       overflow: hidden;
     }
-
     header nav {
       display: flex;
       gap: 1rem;
       background: var(--color-secundario);
       padding: 0.5rem 1rem;
       border-radius: 8px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
-
-    /* Botón de carrito con transiciones suaves */
     .btn-carrito {
       background: var(--color-principal);
-      color: #ffffff;             
-      border: none;    
-      padding: 10px 15px;        
-      font-size: 16px;            
-      border-radius: 8px;         
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); 
-      transition: box-shadow 0.3s ease, transform 0.3s ease; 
+      color: #fff;
+      border: none;
+      padding: 10px 15px;
+      font-size: 16px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
     }
-
     header nav button {
-      background: #ffffff;
+      background: #fff;
       color: var(--color-texto);
       border: none;
       padding: 0.5rem 1rem;
@@ -107,16 +90,13 @@
       font-size: 0.9em;
       border-radius: 8px;
       transition: background 0.3s ease, transform 0.3s ease;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
     }
-
     header nav button:hover {
       background: var(--color-principal);
       color: #fff;
       transform: translateY(-2px);
     }
-
-    /* Sección Categorías: Grid responsivo y elegante */
     .categorias {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
@@ -144,16 +124,11 @@
       overflow-y: auto;
       padding: 0 0.5rem;
     }
-
-    .menu-item::-webkit-scrollbar {
-      width: 2px;
-    }
-
+    .menu-item::-webkit-scrollbar { width: 2px; }
     .menu-item::-webkit-scrollbar-thumb {
       background: var(--color-scrollbar);
       border-radius: 3px;
     }
-
     .productos {
       display: flex;
       justify-content: space-between;
@@ -164,23 +139,9 @@
       transition: background 0.3s ease;
       overflow: auto;
     }
-
-    .productos:hover {
-      background: var(--color-hover);
-    }
-
-    .productos .item-name {
-      font-size: 13px;
-      flex: 1;
-      margin-left: 8px;
-    }
-
-    .productos .item-price {
-      font-size: 13px;
-      font-weight: bold;
-      color: var(--color-principal);
-    }
-
+    .productos:hover { background: var(--color-hover); }
+    .productos .item-name { font-size: 13px; flex: 1; margin-left: 8px; }
+    .productos .item-price { font-size: 13px; font-weight: bold; color: var(--color-principal); }
     .btn-agregar {
       background: var(--color-principal);
       color: var(--color-secundario);
@@ -191,17 +152,11 @@
       border-radius: 6px;
       transition: background 0.3s ease, transform 0.3s ease;
     }
-
-    .btn-agregar:hover {
-      background: #e85c54;
-      transform: scale(1.02);
-    }
-
-    /* Modal reutilizable con bordes redondeados y sombra suave */
+    .btn-agregar:hover { background: #e85c54; transform: scale(1.02); }
     .modal-overlay {
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(0,0,0,0.4);
       backdrop-filter: blur(4px);
       display: none;
       justify-content: center;
@@ -209,7 +164,6 @@
       z-index: 1000;
       padding: 1rem;
     }
-
     .modal-content {
       background: var(--color-secundario);
       padding: 2rem;
@@ -220,16 +174,11 @@
       transform: scale(0.8);
       opacity: 0;
       transition: all 0.3s ease;
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
       max-height: 90vh;
       overflow-y: auto;
     }
-
-    .modal-active {
-      transform: scale(1);
-      opacity: 1;
-    }
-
+    .modal-active { transform: scale(1); opacity: 1; }
     .close-btn {
       position: absolute;
       top: 1rem;
@@ -240,8 +189,6 @@
       cursor: pointer;
       color: var(--color-principal);
     }
-
-    /* Footer minimalista */
     .footer {
       background-color: var(--color-footer);
       color: var(--color-footer-text);
@@ -249,29 +196,15 @@
       padding: 0.8rem;
       font-size: 0.8rem;
     }
-
-    /* Estilos para formularios */
-    .form-group {
-      margin-bottom: 1rem;
-    }
-
-    .form-group label {
-      display: block;
-      margin-bottom: 0.3rem;
-      font-weight: bold;
-    }
-
-    .form-group input, 
-    .form-group textarea,
-    .form-group select {
+    .form-group { margin-bottom: 1rem; }
+    .form-group label { display: block; margin-bottom: 0.3rem; font-weight: bold; }
+    .form-group input, .form-group textarea, .form-group select {
       width: 100%;
       padding: 0.6rem;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 14px;
     }
-
-    /* Slider moderno sin botones y con animación sutil */
     .slider {
       position: relative;
       overflow: hidden;
@@ -280,18 +213,8 @@
       touch-action: pan-y;
       border-radius: 15px;
     }
-
-    .slider-container {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
-    }
-
-    .slide {
-      position: relative;
-      min-width: 100%;
-      box-sizing: border-box;
-    }
-
+    .slider-container { display: flex; transition: transform 0.5s ease-in-out; }
+    .slide { position: relative; min-width: 100%; box-sizing: border-box; }
     .slide img {
       width: 100%;
       height: 100%;
@@ -299,8 +222,6 @@
       object-fit: cover;
       border-radius: 15px;
     }
-
-    /* Texto animado en cada slide */
     .slide-text {
       position: absolute;
       bottom: 20px;
@@ -311,19 +232,10 @@
       animation: fadeInUp 1s forwards;
       text-shadow: 0 2px 4px rgba(0,0,0,0.5);
     }
-
     @keyframes fadeInUp {
-      from {
-        transform: translateY(20px);
-        opacity: 0;
-      }
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
     }
-
-    /* Estilos para el carrito en el modal */
     .cart-item {
       display: flex;
       justify-content: space-between;
@@ -331,12 +243,7 @@
       padding: 0.6rem 0;
       border-bottom: 1px solid #eee;
     }
-
-    .cart-item p {
-      margin: 0;
-      font-size: 14px;
-    }
-
+    .cart-item p { margin: 0; font-size: 14px; }
     .cart-item button {
       background: #d9534f;
       border: none;
@@ -347,18 +254,8 @@
       font-size: 12px;
       transition: background 0.3s ease;
     }
-
-    .cart-item button:hover {
-      background: #c9302c;
-    }
-
-    .cart-total {
-      text-align: right;
-      font-weight: bold;
-      margin-top: 1rem;
-    }
-
-    /* Sección de Información Adicional */
+    .cart-item button:hover { background: #c9302c; }
+    .cart-total { text-align: right; font-weight: bold; margin-top: 1rem; }
     .informacion {
       background: #f0f0f0;
       padding: 1.5rem;
@@ -367,28 +264,14 @@
       font-size: 0.95em;
       color: #555;
     }
-
-    .informacion h3 {
-      margin-bottom: 0.8rem;
-      color: var(--color-principal);
-    }
-
-    .informacion p {
-      margin-bottom: 0.8rem;
-      line-height: 1.4;
-    }
-
+    .informacion h3 { margin-bottom: 0.8rem; color: var(--color-principal); }
+    .informacion p { margin-bottom: 0.8rem; line-height: 1.4; }
     .informacion a {
       color: var(--color-principal);
       text-decoration: none;
       transition: color 0.3s ease;
     }
-
-    .informacion a:hover {
-      color: #e85c54;
-    }
-
-    /* Estilos para notificaciones */
+    .informacion a:hover { color: #e85c54; }
     .notificacion {
       position: fixed;
       top: 20px;
@@ -405,22 +288,26 @@
       pointer-events: none;
       font-size: 14px;
     }
-    .notificacion.mostrar {
-      opacity: 1;
-      transform: translateY(0);
+    .notificacion.mostrar { opacity: 1; transform: translateY(0); }
+    .notificacion.error { background: #d9534f; }
+    .notificacion.exito { background: #28a745; }
+    /* Contenedor de extras actualizado para un look moderno */
+    .extras-container {
+      max-height: 60px;
+      overflow-y: auto;
+    background: #f0f0f0;
+      border-radius: 5px;
+      
     }
-    .notificacion.error {
-      background: #d9534f;
-    }
-    .notificacion.exito {
-      background: #28a745;
+    .extras-container::-webkit-scrollbar { width: 4px; }
+    .extras-container::-webkit-scrollbar-thumb {
+      background: var(--color-scrollbar);
+      border-radius: 2px;
     }
   </style>
 </head>
 <body>
-  <!-- Contenedor de notificaciones (opcional si se quiere gestionar varios mensajes) -->
   <div id="notification-container"></div>
-  <!-- Notificación individual -->
   <div id="notificacion" class="notificacion"></div>
 
   <!-- Modal reutilizable -->
@@ -431,7 +318,7 @@
     </div>
   </div>
 
-  <!-- Encabezado sticky con logo y botón de carrito -->
+  <!-- Encabezado -->
   <header>
     <div class="contenedor-header">
       <div style="display: flex; align-items: center;">
@@ -442,27 +329,22 @@
       </button>
     </div>
     <nav>
-      <button onclick="document.getElementById('categorias').scrollIntoView({ behavior: 'smooth' });">
-        Categorías
-      </button>
-      <button onclick="document.getElementById('informacion').scrollIntoView({ behavior: 'smooth' });">
-        Información
-      </button>
+      <button onclick="document.getElementById('categorias').scrollIntoView({ behavior: 'smooth' });">Categorías</button>
+      <button onclick="document.getElementById('informacion').scrollIntoView({ behavior: 'smooth' });">Información</button>
       <button onclick="mostrarInfoTransferencia()">Transferencia</button>
     </nav>
   </header>
+
   <!-- Contenedor principal -->
   <div class="contenedor">
-    <!-- Sección Slider -->
     <section class="slider">
       <div class="slider-container" id="slider-container">
-        <!-- Se generarán dinámicamente con el JSON -->
+        <!-- Se generarán dinámicamente -->
       </div>
     </section>
     <section class="informacion" style="text-align: center;">
       <h1>MENU</h1>
     </section>
-    <!-- Sección Categorías -->
     <section class="categorias" id="categorias">
       <!-- Se generan dinámicamente -->
     </section>
@@ -479,7 +361,6 @@
         <a href="https://www.twitter.com" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
       </p>
     </section>
-    <!-- Footer -->
     <footer class="footer" id="footer">
       © 2025 IAEgo. (Andry) Todos los derechos reservados. <br>
       <a href="https://wa.me/9382502171" target="_blank" style="color: var(--color-footer-text); text-decoration: none;">
@@ -489,61 +370,48 @@
   </div>
 
   <script>
-    // Función para mostrar notificaciones
+    // Notificaciones usando ternarias donde sea posible
     function mostrarNotificacion(mensaje, tipo = 'exito') {
       const noti = document.getElementById("notificacion");
       noti.textContent = mensaje;
       noti.className = `notificacion mostrar ${tipo}`;
-      setTimeout(() => {
-        noti.classList.remove("mostrar");
-      }, 3000);
+      setTimeout(() => noti.classList.remove("mostrar"), 3000);
     }
-
-    // Funciones de almacenamiento local
+    // LocalStorage
     const LS = {
       get: key => JSON.parse(localStorage.getItem(key)),
       set: (key, data) => localStorage.setItem(key, JSON.stringify(data))
     };
-
-    // Objeto global con datos del menú
+    // Datos y carrito global
     const data = {};
-    // Array global para el carrito
     let carrito = [];
-
-    // Actualiza el botón de carrito con total de piezas y monto total
+    // Actualiza el botón del carrito
     function actualizarBotonCarrito() {
       const totalPiezas = carrito.length;
       const totalMonto = carrito.reduce((sum, item) => sum + parseFloat(item.precio), 0);
-      document.getElementById('btnCarrito').innerText =
-        `Carrito (${totalPiezas} piezas - $${totalMonto.toFixed(2)})`;
+      document.getElementById('btnCarrito').innerText = `Carrito (${totalPiezas} piezas - $${totalMonto.toFixed(2)})`;
     }
-
-    // Inicializa la interfaz con los datos recibidos
+    // Inicializa la interfaz
     function inicializarInterfaz() {
-      if (!data || !data.productos) {
-        console.error("No hay datos para inicializar la interfaz.");
-      } else {
-        const categorias = {};
-        data.productos.forEach(producto => {
-          if (producto.categoria) {
-            categorias[producto.categoria] ?
-              categorias[producto.categoria].push(producto) :
-              categorias[producto.categoria] = [producto];
-          }
-        });
-        generarCategoriasHTML(categorias);
-      }
+      !data || !data.productos
+        ? console.error("No hay datos para inicializar la interfaz.")
+        : (() => {
+            const categorias = {};
+            data.productos.forEach(producto => {
+              producto.categoria
+                ? (categorias[producto.categoria] = categorias[producto.categoria] || [], categorias[producto.categoria].push(producto))
+                : null;
+            });
+            generarCategoriasHTML(categorias);
+          })();
     }
-
-    // JSON de imágenes del slider con texto
+    // Slider
     const sliderImages = [
       { src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ5Py4lvQPfff72mSmob1N_Yp1jvBfZybFJuGbcuujFpciSObExFDmmTiM&s=10", alt: "Deliciosa pizza 1", text: "¡Bienvenido!" },
       { src: "https://res.cloudinary.com/dpnm1c0zx/image/upload/v1743618012/FB_IMG_1743617549486_jlxtqf.jpg", alt: "Deliciosa pizza 2", text: "Disfruta de nuestras pizzas" },
       { src: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-dUUhLhoc_M5AD1l-q1YHyh2J6pEfWb42vZAfssr_S7iJXQWgi4OJM0Ak&s=10", alt: "Deliciosa pizza 3", text: "Sabor y tradición" }
     ];
-
     const sliderContainer = document.getElementById("slider-container");
-    // Genera dinámicamente cada slide a partir del JSON
     sliderContainer.innerHTML = sliderImages.length 
       ? sliderImages.map(img => `
           <div class="slide">
@@ -551,48 +419,24 @@
             <div class="slide-text">${img.text}</div>
           </div>`).join('')
       : `<div class="slide"><p>No hay imágenes disponibles</p></div>`;
-
     let currentIndex = 0;
     const slides = document.querySelectorAll(".slide");
-
     function showSlide(index) {
-      currentIndex = index < 0 
-        ? slides.length - 1 
-        : index >= slides.length 
-          ? 0 
-          : index;
+      currentIndex = index < 0 ? slides.length - 1 : index >= slides.length ? 0 : index;
       sliderContainer.style.transform = `translateX(-${currentIndex * 100}%)`;
     }
-
-    // Slider automático cada 5 segundos
     setInterval(() => showSlide(currentIndex + 1), 5000);
-
-    // Eventos touch para controlar el slider con el dedo
-    let touchStartX = 0;
-    let touchEndX = 0;
+    let touchStartX = 0, touchEndX = 0;
     const slider = document.querySelector('.slider');
-
-    slider.addEventListener('touchstart', function(event) {
-      touchStartX = event.changedTouches[0].screenX;
-    }, false);
-
-    slider.addEventListener('touchend', function(event) {
-      touchEndX = event.changedTouches[0].screenX;
-      handleGesture();
-    }, false);
-
+    slider.addEventListener('touchstart', event => touchStartX = event.changedTouches[0].screenX, false);
+    slider.addEventListener('touchend', event => { touchEndX = event.changedTouches[0].screenX; handleGesture(); }, false);
     function handleGesture() {
       const swipeDistance = touchEndX - touchStartX;
-      if (swipeDistance < -50) {
-        // Swipe hacia la izquierda: siguiente slide
-        showSlide(currentIndex + 1);
-      } else if (swipeDistance > 50) {
-        // Swipe hacia la derecha: slide anterior
-        showSlide(currentIndex - 1);
-      }
+      swipeDistance < -50 ? showSlide(currentIndex + 1)
+      : swipeDistance > 50 ? showSlide(currentIndex - 1)
+      : null;
     }
-
-    // Genera HTML para cada categoría
+    // Genera HTML de categorías y productos
     function generarCategoriasHTML(categorias) {
       const contenedorCategorias = document.getElementById("categorias");
       contenedorCategorias.innerHTML = "";
@@ -610,8 +454,6 @@
         crearProductosHTML(menuItem.id, categorias[categoria]);
       });
     }
-
-    // Crea la lista de productos en la categoría con imagen en miniatura
     function crearProductosHTML(containerId, productos) {
       const contenedor = document.getElementById(containerId);
       if (contenedor) {
@@ -622,7 +464,7 @@
           productoDiv.classList.add("productos");
           productoDiv.onclick = () => info(producto.id);
           productoDiv.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}" style="width:30px;border-radius: 8px;  height:auto; margin-right:8px;  ">
+            <img src="${producto.imagen}" alt="${producto.nombre}" style="width:30px; border-radius:8px; height:auto; margin-right:8px;">
             <span class="item-name">${producto.nombre}</span>
             <span class="item-price">$${precio.toFixed(1)}</span>
           `;
@@ -630,65 +472,91 @@
         });
       }
     }
-
-    // Abre modal con detalles del producto
+    // Abre modal con detalles del producto, mostrando extras (si no es de la categoría "EXTRAS")
     function info(id) {
       openModal();
       const producto = data.productos.find(prod => prod.id === id);
-      if (producto) {
-        document.getElementById('modalBody').innerHTML = `
-          <img src="${producto.imagen}" alt="${producto.nombre}" style="width:100%; border-radius:10px; margin-bottom:1rem;">
-          <h2>${producto.nombre}</h2>
-          <p><strong>Precio:</strong> $${producto.precio.toFixed(1)}</p>
-          <p><strong>Descripción:</strong> ${producto.descripcion}</p>
-          <div class="form-group">
-            <label for="notaProducto">Nota para este producto (opcional):</label>
-            <input type="text" id="notaProducto" placeholder="Ej: sin algún ingrediente">
-          </div>
-          <button class="btn-agregar" onclick="agregarProductoDesdeModal(${producto.id})">Agregar al Carrito</button>
-        `;
-      } else {
-        mostrarNotificacion("Producto no encontrado.", "error");
-      }
+      producto 
+        ? document.getElementById('modalBody').innerHTML =
+            `<img src="${producto.imagen}" alt="${producto.nombre}" style="width:100%; border-radius:10px; margin-bottom:1rem;">
+             <h2>${producto.nombre}</h2>
+             <p><strong>Precio:</strong> $${parseFloat(producto.precio).toFixed(1)}</p>
+             <p><strong>Descripción:</strong> ${producto.descripcion}</p>` +
+             (producto.categoria.toUpperCase() !== "EXTRAS"
+                ? (() => {
+                    const extrasDisponibles = data.productos.filter(p => p.categoria.toUpperCase() === "EXTRAS");
+                    return extrasDisponibles.length
+                      ? `<h3>Piedes seleccionar algún extra</h3>
+                         <div class="extras-container">
+                           ${extrasDisponibles.map(extra =>
+                             `<div>
+                                <input type="checkbox" id="extra_${extra.id}" name="extra" value="${extra.id}" data-precio="${extra.precio}">
+                                <label for="extra_${extra.id}">${extra.nombre} (+$${parseFloat(extra.precio).toFixed(1)})</label>
+                              </div>`
+                           ).join('')}
+                         </div>`
+                      : "";
+                  })()
+                : ""
+             ) +
+             `<div class="form-group">
+                <label for="notaProducto">Nota para este producto (opcional):</label>
+                <input type="text" id="notaProducto" placeholder="Ej: sin algún ingrediente">
+              </div>
+              <button class="btn-agregar" onclick="agregarProductoDesdeModal(${producto.id})">Agregar al Carrito</button>`
+        : mostrarNotificacion("Producto no encontrado.", "error");
     }
-
-    // Agrega producto al carrito
+    // Agrega producto al carrito usando ternarias
     function agregarProductoDesdeModal(productoId) {
       const nota = document.getElementById("notaProducto").value.trim();
       const producto = data.productos.find(prod => prod.id === productoId);
-      if (producto) {
-        carrito.push({ id: producto.id, nombre: producto.nombre, precio: producto.precio, peticion: nota });
-        mostrarNotificacion(`${producto.nombre} se agregó al carrito.`, "exito");
-        actualizarBotonCarrito();
-        closeModal();
-      } else {
-        mostrarNotificacion("Producto no encontrado.", "error");
-      }
+      producto 
+        ? (() => {
+            const extrasSeleccionados = [];
+            document.querySelectorAll('input[name="extra"]:checked').forEach(checkbox => {
+              const extraId = parseInt(checkbox.value);
+              const extraData = data.productos.find(p => p.id === extraId && p.categoria.toUpperCase() === "EXTRAS");
+              extraData ? extrasSeleccionados.push({ id: extraId, nombre: extraData.nombre, precio: parseFloat(extraData.precio) }) : null;
+            });
+            let precioTotal = parseFloat(producto.precio);
+            extrasSeleccionados.forEach(extra => precioTotal += extra.precio);
+            carrito.push({ 
+              id: producto.id, 
+              nombre: producto.nombre, 
+              precio: precioTotal, 
+              peticion: nota, 
+              extras: extrasSeleccionados 
+            });
+            mostrarNotificacion(`${producto.nombre} se agregó al carrito.`, "exito");
+            actualizarBotonCarrito();
+            closeModal();
+          })()
+        : mostrarNotificacion("Producto no encontrado.", "error");
     }
-
-    // Muestra el carrito dentro del modal
+    // Muestra el carrito en el modal
     function mostrarCarritoModal() {
-      if (carrito.length === 0) {
-        openModal();
-        document.getElementById('modalBody').innerHTML = "<h2>Carrito</h2><p>El carrito está vacío.</p>";
-      } else {
-        let html = "<h2>Carrito</h2>";
-        carrito.forEach((item, index) => {
-          html += `
-            <div class="cart-item">
-              <p>${index + 1}. ${item.nombre} - $${parseFloat(item.precio).toFixed(1)} ${item.peticion ? "(" + item.peticion + ")" : ""}</p>
-              <button onclick="eliminarProducto(${index})">Eliminar</button>
-            </div>
-          `;
-        });
-        const total = carrito.reduce((sum, item) => sum + parseFloat(item.precio), 0);
-        html += `<p class="cart-total">Total: $${total.toFixed(2)}</p>`;
-        html += `<button class="btn-agregar" onclick="mostrarFormularioPedido()">Proceder con Pedido</button>`;
-        openModal();
-        document.getElementById('modalBody').innerHTML = html;
-      }
+      carrito.length === 0 
+        ? (openModal(), document.getElementById('modalBody').innerHTML = "<h2>Carrito</h2><p>El carrito está vacío.</p>")
+        : (() => {
+            let html = "<h2>Carrito</h2>";
+            carrito.forEach((item, index) => {
+              let extrasInfo = item.extras && item.extras.length > 0
+                ? " (Extras: " + item.extras.map(e => `${e.nombre} (+$${parseFloat(e.precio).toFixed(1)})`).join(", ") + ")"
+                : "";
+              html += `
+                <div class="cart-item">
+                  <p>${index + 1}. ${item.nombre}${extrasInfo} - $${parseFloat(item.precio).toFixed(1)} ${item.peticion ? "(" + item.peticion + ")" : ""}</p>
+                  <button onclick="eliminarProducto(${index})">Eliminar</button>
+                </div>
+              `;
+            });
+            const total = carrito.reduce((sum, item) => sum + parseFloat(item.precio), 0);
+            html += `<p class="cart-total">Total: $${total.toFixed(2)}</p>`;
+            html += `<button class="btn-agregar" onclick="mostrarFormularioPedido()">Proceder con Pedido</button>`;
+            openModal();
+            document.getElementById('modalBody').innerHTML = html;
+          })();
     }
-
     // Elimina un producto del carrito
     const eliminarProducto = index => {
       const nombreEliminado = carrito[index].nombre;
@@ -697,8 +565,7 @@
       mostrarCarritoModal();
       mostrarNotificacion(`${nombreEliminado} eliminado del carrito.`, "error");
     };
-
-    // Muestra el formulario de pedido en el modal con selección de método de pago
+    // Muestra el formulario de pedido
     function mostrarFormularioPedido() {
       const direccionGuardada = LS.get("direccionEnvio") || "";
       document.getElementById('modalBody').innerHTML = `
@@ -724,51 +591,48 @@
         </form>
       `;
     }
-
-    // Procesa y envía el pedido vía WhatsApp
+    // Envía el pedido vía WhatsApp, incluyendo el total, usando ternarias
     function enviarPedidoFinal() {
       const direccion = document.getElementById("direccion").value.trim();
       const metodoPago = document.getElementById("metodoPago").value.trim();
-      if (!direccion) {
-        mostrarNotificacion("La dirección es obligatoria.", "error");
-        return;
-      }
-      if (!metodoPago) {
-        mostrarNotificacion("Seleccione un método de pago.", "error");
-        return;
-      }
-      LS.set("direccionEnvio", direccion);
-      let mensaje = "¡Hola! Quiero realizar el siguiente pedido:%0A";
-      carrito.forEach((item, index) => {
-        mensaje += `${index + 1}. ${item.nombre} - $${parseFloat(item.precio).toFixed(1)}` + (item.peticion ? ` (${item.peticion})` : "") + "%0A";
-      });
-      mensaje += `%0ADirección de envío: ${direccion}%0A`;
-      mensaje += `%0AMétodo de Pago: ${metodoPago}%0A`;
-      mensaje += document.getElementById("notaPedido").value.trim() ? `%0ANota: ${document.getElementById("notaPedido").value.trim()}%0A` : "";
-      closeModal();
-      window.open(`https://wa.me/9381844237?text=${mensaje}`, "_blank");
+      !direccion
+        ? mostrarNotificacion("La dirección es obligatoria.", "error")
+        : !metodoPago
+          ? mostrarNotificacion("Seleccione un método de pago.", "error")
+          : (() => {
+              LS.set("direccionEnvio", direccion);
+              let mensaje = "¡Hola! Quiero realizar el siguiente pedido:%0A";
+              carrito.forEach((item, index) => {
+                let itemTexto = `${index + 1}. ${item.nombre} - $${parseFloat(item.precio).toFixed(1)}` +
+                  (item.peticion ? ` (${item.peticion})` : "") +
+                  (item.extras && item.extras.length > 0 ? " Extras: " + item.extras.map(e => `${e.nombre} (+$${parseFloat(e.precio).toFixed(1)})`).join(", ") : "");
+                mensaje += itemTexto + "%0A";
+              });
+              const total = carrito.reduce((sum, item) => sum + parseFloat(item.precio), 0);
+              mensaje += `%0ATotal del pedido: $${total.toFixed(2)}%0A` +
+                         `%0ADirección de envío: ${direccion}%0A` +
+                         `%0AMétodo de Pago: ${metodoPago}%0A` +
+                         (document.getElementById("notaPedido").value.trim() ? `%0ANota: ${document.getElementById("notaPedido").value.trim()}%0A` : "");
+              closeModal();
+              window.open(`https://wa.me/9381844237?text=${mensaje}`, "_blank");
+            })();
     }
-
-    // Funciones para abrir y cerrar el modal
+    // Abre y cierra el modal
     function openModal() {
       const modalOverlay = document.getElementById('modalOverlay');
       const modalContent = document.getElementById('modalContent');
       modalOverlay.style.display = 'flex';
       setTimeout(() => modalContent.classList.add('modal-active'), 10);
     }
-
     function closeModal() {
       const modalContent = document.getElementById('modalContent');
       const modalOverlay = document.getElementById('modalOverlay');
       modalContent.classList.remove('modal-active');
-      setTimeout(() => { modalOverlay.style.display = 'none'; }, 300);
+      setTimeout(() => modalOverlay.style.display = 'none', 300);
     }
     document.getElementById('modalOverlay').addEventListener('click', (e) => {
-      if (e.target === document.getElementById('modalOverlay')) {
-        closeModal();
-      }
+      e.target === document.getElementById('modalOverlay') ? closeModal() : null;
     });
-
     // Obtener datos desde GAS
     async function obtenerDatosGAS() {
       const urlGAS = "https://script.google.com/macros/s/AKfycbxbUpFOZFzpPHy8NKr5_2s9EO9eD048G4ep1eqN9QKM_Jbdifz8aujVi3v8ym_HrBV0/exec";
@@ -776,9 +640,7 @@
       formData.append("id", "obtenerMenu");
       try {
         const response = await fetch(urlGAS, { method: "POST", body: formData });
-        if (!response.ok) {
-          throw new Error("Error en la respuesta del servidor");
-        }
+        if (!response.ok) { throw new Error("Error en la respuesta del servidor"); }
         const result = await response.json();
         console.log("Menú obtenido:", result.data);
         Object.assign(data, result.data);
@@ -788,13 +650,8 @@
         console.error("Error al obtener los datos:", error);
       }
     }
-
-    // Cargar datos desde localStorage y obtener datos de GAS
     const datosLocales = LS.get("menu");
-    if (datosLocales) {
-      Object.assign(data, datosLocales);
-      inicializarInterfaz();
-    }
+    datosLocales ? (Object.assign(data, datosLocales), inicializarInterfaz()) : null;
     obtenerDatosGAS();
   </script>
 </body>
