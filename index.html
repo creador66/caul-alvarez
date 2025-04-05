@@ -262,7 +262,8 @@
     }
 
     .form-group input, 
-    .form-group textarea {
+    .form-group textarea,
+    .form-group select {
       width: 100%;
       padding: 0.6rem;
       border: 1px solid #ccc;
@@ -697,7 +698,7 @@
       mostrarNotificacion(`${nombreEliminado} eliminado del carrito.`, "error");
     };
 
-    // Muestra el formulario de pedido en el modal
+    // Muestra el formulario de pedido en el modal con selección de método de pago
     function mostrarFormularioPedido() {
       const direccionGuardada = LS.get("direccionEnvio") || "";
       document.getElementById('modalBody').innerHTML = `
@@ -708,6 +709,14 @@
             <input type="text" id="direccion" value="${direccionGuardada}" placeholder="La dirección se guardará" required>
           </div>
           <div class="form-group">
+            <label for="metodoPago">Método de Pago:</label>
+            <select id="metodoPago" required>
+              <option value="">Seleccione un método</option>
+              <option value="Transferencia">Transferencia Bancaria</option>
+              <option value="Efectivo">Pago en Efectivo</option>
+            </select>
+          </div>
+          <div class="form-group">
             <label for="notaPedido">Nota adicional (opcional):</label>
             <textarea id="notaPedido" rows="3"></textarea>
           </div>
@@ -716,36 +725,28 @@
       `;
     }
 
-    // Muestra información de pagos con transferencia en el modal
-    function mostrarInfoTransferencia() {
-      openModal();
-      document.getElementById('modalBody').innerHTML = `
-        <h2>Pagos con Transferencia</h2>
-        <p><strong>Banco:</strong> Coppel</p>
-        <p><strong>Cuenta:</strong> 4169 1608 2591 2943</p>
-        <p><strong>Banco:</strong> BBVA</p>
-        <p><strong>Cuenta:</strong> 4152 3140 4421 6003</p>
-        <p><strong>Titular:</strong> Andry Mallely Martínez García</p>
-        <p><strong>Teléfono:</strong> 938 184 4237</p>
-      `;
-    }
-
     // Procesa y envía el pedido vía WhatsApp
     function enviarPedidoFinal() {
       const direccion = document.getElementById("direccion").value.trim();
+      const metodoPago = document.getElementById("metodoPago").value.trim();
       if (!direccion) {
         mostrarNotificacion("La dirección es obligatoria.", "error");
-      } else {
-        LS.set("direccionEnvio", direccion);
-        let mensaje = "¡Hola! Quiero realizar el siguiente pedido:%0A";
-        carrito.forEach((item, index) => {
-          mensaje += `${index + 1}. ${item.nombre} - $${parseFloat(item.precio).toFixed(1)}` + (item.peticion ? ` (${item.peticion})` : "") + "%0A";
-        });
-        mensaje += `%0ADirección de envío: ${direccion}%0A`;
-        mensaje += document.getElementById("notaPedido").value.trim() ? `%0ANota: ${document.getElementById("notaPedido").value.trim()}%0A` : "";
-        closeModal();
-        window.open(`https://wa.me/9381844237?text=${mensaje}`, "_blank");
+        return;
       }
+      if (!metodoPago) {
+        mostrarNotificacion("Seleccione un método de pago.", "error");
+        return;
+      }
+      LS.set("direccionEnvio", direccion);
+      let mensaje = "¡Hola! Quiero realizar el siguiente pedido:%0A";
+      carrito.forEach((item, index) => {
+        mensaje += `${index + 1}. ${item.nombre} - $${parseFloat(item.precio).toFixed(1)}` + (item.peticion ? ` (${item.peticion})` : "") + "%0A";
+      });
+      mensaje += `%0ADirección de envío: ${direccion}%0A`;
+      mensaje += `%0AMétodo de Pago: ${metodoPago}%0A`;
+      mensaje += document.getElementById("notaPedido").value.trim() ? `%0ANota: ${document.getElementById("notaPedido").value.trim()}%0A` : "";
+      closeModal();
+      window.open(`https://wa.me/9381844237?text=${mensaje}`, "_blank");
     }
 
     // Funciones para abrir y cerrar el modal
