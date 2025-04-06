@@ -140,8 +140,8 @@
       overflow: auto;
     }
     .productos:hover { background: var(--color-hover); }
-    .productos .item-name { font-size: 13px; flex: 1; margin-left: 8px; }
-    .productos .item-price { font-size: 13px; font-weight: bold; color: var(--color-principal); }
+    .productos .item-name { font-size: 12px; flex: 1; margin-left: 2px; }
+    .productos .item-price { font-size: 12px; font-weight: bold; color: var(--color-principal); }
     .btn-agregar {
       background: var(--color-principal);
       color: var(--color-secundario);
@@ -464,7 +464,7 @@
           productoDiv.classList.add("productos");
           productoDiv.onclick = () => info(producto.id);
           productoDiv.innerHTML = `
-            <img src="${producto.imagen}" alt="${producto.nombre}" style="width:30px; border-radius:8px; height:auto; margin-right:8px;">
+            <img src="${producto.imagen}" alt="${producto.nombre}" style="width:20px; border-radius:8px; height:auto;">
             <span class="item-name">${producto.nombre}</span>
             <span class="item-price">$${precio.toFixed(1)}</span>
           `;
@@ -591,6 +591,20 @@
         </form>
       `;
     }
+      // Función para mostrar la información de pagos con transferencia en el modal
+    function mostrarInfoTransferencia() {
+      openModal();
+      document.getElementById('modalBody').innerHTML = `
+        <h2>Pagos con Transferencia</h2>
+        <p><strong>Banco:</strong> Coppel</p>
+        <p><strong>Cuenta:</strong> 4169 1608 2591 2943</p>
+        <p><strong>Banco:</strong> BBVA</p>
+        <p><strong>Cuenta:</strong> 4152 3140 4421 6003</p>
+        <p><strong>Titular:</strong> Andry Mallely Martínez García</p>
+        <p><strong>Teléfono:</strong> 938 184 4237</p>
+      `;
+    }
+
     // Envía el pedido vía WhatsApp, incluyendo el total, usando ternarias
     function enviarPedidoFinal() {
       const direccion = document.getElementById("direccion").value.trim();
