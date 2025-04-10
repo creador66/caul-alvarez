@@ -52,6 +52,30 @@
       z-index: 100;
       border-bottom: 1px solid #ddd;
     }
+    /* Loader overlay */
+#loader {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: var(--color-secundario);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+#loader img {
+  width: 120px;
+  height: auto;
+}
+
+/* Clase para ocultar con transición */
+#loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
     .logo {
       background: #000;
       height: 50px;
@@ -307,7 +331,14 @@
   </style>
 </head>
 <body>
+  <!-- Loader -->
+  <div id="loader">
+    <img src="https://res.cloudinary.com/dedltkiwa/image/upload/v1744329306/03-19-26-213_512_ju9l0n.gif" alt="Cargando..." />
+  </div>
+
   <div id="notification-container"></div>
+  <!-- resto de tu contenido… -->
+
   <div id="notificacion" class="notificacion"></div>
 
   <!-- Modal reutilizable -->
@@ -370,6 +401,13 @@
   </div>
 
   <script>
+  window.addEventListener('load', () => {
+ const loader = document.getElementById('loader');
+ // Aplicamos la clase que hace fade-out
+ loader.classList.add('hidden');
+ // Opcional: eliminamos el nodo del DOM tras la animación
+ setTimeout(() => loader.remove(), 600);
+});
     // Notificaciones usando ternarias donde sea posible
     function mostrarNotificacion(mensaje, tipo = 'exito') {
       const noti = document.getElementById("notificacion");
@@ -486,7 +524,7 @@
                 ? (() => {
                     const extrasDisponibles = data.productos.filter(p => p.categoria.toUpperCase() === "EXTRAS");
                     return extrasDisponibles.length
-                      ? `<h3>Puedes seleccionar algún extra</h3>
+                      ? `<h3>Piedes seleccionar algún extra</h3>
                          <div class="extras-container">
                            ${extrasDisponibles.map(extra =>
                              `<div>
