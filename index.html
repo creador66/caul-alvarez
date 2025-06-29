@@ -631,17 +631,16 @@
     }
       // Función para mostrar la información de pagos con transferencia en el modal
     function mostrarInfoTransferencia() {
-      openModal();
-      document.getElementById('modalBody').innerHTML = `
-        <h2>Pagos con Transferencia</h2>
-        <p><strong>Banco:</strong> Coppel</p>
-        <p><strong>Cuenta:</strong> 4169 1608 2591 2943</p>
-        <p><strong>Banco:</strong> BBVA</p>
-        <p><strong>Cuenta:</strong> 4152 3140 4421 6003</p>
-        <p><strong>Titular:</strong> Andry Mallely Martínez García</p>
-        <p><strong>Teléfono:</strong> 938 184 4237</p>
-      `;
-    }
+  openModal();
+  document.getElementById('modalBody').innerHTML = `
+    <h2>Pagos con Transferencia</h2>
+    <p><strong>Banco:</strong> Banco Azteca</p>
+    <p><strong>Cuenta:</strong> 5263 5401 5018 0350</p>
+    <p><strong>Titular:</strong> Andry Mallely Martínez García</p>
+    <p><strong>Teléfono:</strong> 938 184 4237</p>
+  `;
+}
+
 
     // Envía el pedido vía WhatsApp, incluyendo el total, usando ternarias
     function enviarPedidoFinal() {
