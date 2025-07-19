@@ -1,426 +1,625 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>POS Mesas con Sub‑cuentas, Filtros, Edición Inline, Animaciones y Historial</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body, html { height:100%; font-family: Arial, sans-serif; background:#fafafa; }
 
-body {
-    font-family: 'open sans';
-}
+    /* CABECERA */
+    header {
+      position: fixed; top: 0; left: 0; right: 0; height: 56px;
+      background: #fff; display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; border-bottom: 1px solid #ddd; z-index: 10;
+    }
+    header .title { font-size: 1.2rem; font-weight: bold; color: #333; }
+    header button { padding: 6px 12px; font-size: .9rem; border: 1px solid #e0e0e0; border-radius: 4px; background:#f5f5f5; cursor:pointer; }
 
-.contenedor {
-    padding: 60px 0;
-    width: 90%;
-    max-width: 1000px;
-    margin: auto;
-    overflow: hidden;
-}
+    /* BARRA DE MESAS */
+    #mesaBar {
+      position: fixed; top: 56px; left: 0; right: 0; height: 48px;
+      background: #fff; display: flex; align-items: center;
+      padding: 0 12px; overflow-x: auto; border-bottom: 1px solid #ddd;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.05); z-index: 9;
+    }
+    .mesa-btn {
+      flex: none; margin-right: 8px; padding: 0 14px; height: 32px;
+      line-height: 32px; border-radius: 16px; border: 1px solid #e0e0e0;
+      background: #f5f5f5; color: #555; font-size: .9rem; cursor: pointer;
+      transition: .2s; position: relative;
+    }
+    .mesa-btn.selected {
+      background: #e65c00; color: #fff; border-color: #e65c00;
+      box-shadow: 0 2px 6px rgba(230,92,0,0.3);
+    }
+    .mesa-name { cursor: pointer; }
+    .mesa-text, .sub-text { cursor: pointer; }
+    .mesa-count, .sub-count { color: #888; font-size: .8rem; margin-left: 4px; }
 
-.titulo {
-    color: #642a73;
-    font-size: 30px;
-    text-align: center;
-    margin-bottom: 60px;
-}
+    /* CONTENIDO */
+    .container {
+      display: flex; position: absolute;
+      top: 104px; bottom: 56px; left: 0; right: 0;
+    }
+    .sidebar {
+      width: 22%; background: #f8f8f8; overflow-y: auto;
+      border-right: 1px solid #ddd; padding: 12px;
+    }
+    .thumb-list { list-style: none; }
+    .thumb-list li {
+      margin-bottom: 12px; cursor: pointer;
+      border-radius: 8px; overflow: hidden; transition: .2s;
+    }
+    .thumb-list li:hover {
+      transform: scale(1.02); box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    .thumb-list img { width: 100%; display: block; }
 
-/* Header */
+    .main {
+      flex: 1; position: relative; padding: 20px; overflow-y: auto; text-align: center; background: #fff;
+    }
+    .main img { max-width: 80%; border-radius: 16px; margin-bottom: 20px; transition: .3s; }
+    .details h2 { font-size: 1.8rem; margin-bottom: 8px; color: #333; }
+    .details .price { font-size: 1.6rem; color: #e65c00; margin-bottom: 16px; }
+    .details .desc { max-width: 70%; color: #555; line-height: 1.4; margin: 0 auto; }
 
-header {
-    width: 100%;
-    height: 600px;
-    background: #bc4e9c;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, hsla(340, 95%, 50%, 0.459), hsla(317, 45%, 52%, 0.664)), url(../img/portada.jpg);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, hsla(340, 95%, 50%, 0.459), hsla(317, 45%, 52%, 0.664)), url(../img/portada.jpg);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background-size: cover;
-    background-attachment: fixed;
-    position: relative;
-}
-
-nav{
-    text-align: right;
-    padding: 30px 50px 0 0;
-}
-
-nav > a{
-    color:#fff;
-    font-weight: 300;
-    text-decoration: none;
-    margin-right: 10px;
-}
-
-nav > a:hover{
-    text-decoration: underline;
-}
-
-header .textos-header{
-    display: flex;
-    height: 430px;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    text-align: center;
-}
-
-.textos-header h1{
-    font-size: 50px;
-    color:#fff;
-}
-
-.textos-header h2{
-    font-size: 30px;
-    font-weight: 300;
-    color:#fff;
-}
-
-.wave{
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-}
-
-/* About us */
-
-main .sobre-nosotros{
-    padding: 30px 0 60px 0;
-}
-.contenedor-sobre-nosotros{
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.imagen-about-us{
-    width: 48%;
-}
-
-.sobre-nosotros .contenido-textos{
-    width: 48%;
-}
-
-.contenido-textos h3{
-    margin-bottom: 15px;
-}
-
-.contenido-textos h3 span{
-    background: #4d0686;
-    color: #fff;
-    border-radius: 50%;
-    display: inline-block;
-    text-align: center;
-    width: 30px;
-    height: 30px;
-    padding: 2px;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, .5);
-    margin-right: 5px;
-}
-
-.contenido-textos p{
-    padding: 0px 0px 30px 15px;
-    font-weight: 300;
-    text-align: justify;
-}
-
-/* Galeria */
-
-
-.portafolio{
-    background: #f2f2f2;
-}
-
-.galeria-port{
-    display: flex;
-    justify-content: space-evenly;
-    flex-wrap: wrap;
-}
-
-.imagen-port{
-    width: 24%;
-    margin-bottom: 10px;
-    overflow: hidden;
-    position: relative;
-    cursor: pointer;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, .5);
-}
-
-.imagen-port > img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-}
-
-.hover-galeria{
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    transform: scale(0);
-    background: hsla(273,91%,27%, 0.7);
-    transition: transform .5s;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-.hover-galeria img{
-    width: 50px;
-}
-
-.hover-galeria p{
-    color: #fff;
-}
-
-.imagen-port:hover .hover-galeria{
-    transform: scale(1);
-}
-
-/* Clients */
-
-.cards{
-    display: flex;
-    justify-content: space-evenly;
-}
-
-.cards .card{
-    background: #4d0686;
-    display: flex;
-    width: 46%;
-    height: 200px;
-    align-items: center;
-    justify-content: space-evenly;
-    border-radius: 5px;
-    box-shadow: 0 0 6px 0 rgba(0, 0, 0, 0.6);
-}
-
-.cards .card img{
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-    border: 3px solid #fff;
-    border-radius: 50%;
-    display: block;
-}
-
-.cards .card > .contenido-texto-card{
-    width: 60%;
-    color: #fff;
-}
-
-.cards .card > .contenido-texto-card p{
-    font-weight: 300;
-    padding-top: 5px;
-}
-
-/*  Our team */
-
-.about-services{
-    background: #f2f2f2;
-    padding-bottom: 30px;
-}
-
-
-.servicio-cont{
-    display:flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.servicio-ind{
-    width: 28%;
-    text-align: center;
-}
-
-.servicio-ind img{
-    width: 90%;
-}
-
-.servicio-ind h3{
-    margin: 10px 0;
-}
-
-.servicio-ind p{
-    font-weight: 300;
-    text-align: justify;
-}
-
-/* footer */
-
-footer{
-    background: #414141;
-    padding: 60px 0 30px 0;
-    margin: auto;
-    overflow: hidden;
-}
-
-.contenedor-footer{
-    display: flex;
-    width: 90%;
-    justify-content: space-evenly;
-    margin: auto;
-    padding-bottom: 50px;
-    border-bottom: 1px solid #ccc;
-}
-
-.content-foo{
-    text-align: center;
-}
-
-.content-foo h4{
-    color: #fff;
-    border-bottom: 3px solid #af20d3;
-    padding-bottom: 5px;
-    margin-bottom: 10px;
-}
-
-.content-foo p{
-    color: #ccc;
-}
-
-.titulo-final{
-    text-align: center;
-    font-size: 24px;
-    margin: 20px 0 0 0;
-    color: #9e9797;
-}
-
-@media screen and (max-width:900px){
-    header{
-        background-position: center;
+    /* MENÚ INFERIOR DE CATEGORÍAS */
+    #categoryMenu {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 56px;
+      background: #fff; display: flex; align-items: center;
+      padding: 0 12px; overflow-x: auto; border-top: 1px solid #ddd;
+      box-shadow: 0 -1px 4px rgba(0,0,0,0.05); z-index: 10;
+    }
+    .category-btn {
+      flex: none; margin-right: 8px; padding: 0 14px; height: 32px;
+      line-height: 32px; border-radius: 16px; border: 1px solid #e0e0e0;
+      background: #f5f5f5; color: #555; font-size: .9rem; cursor: pointer;
+      transition: .2s;
+    }
+    .category-btn.active {
+      background: #e65c00; color: #fff; border-color: #e65c00;
+      box-shadow: 0 2px 6px rgba(230,92,0,0.3);
     }
 
-    .contenedor-sobre-nosotros{
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
+    /* PANEL DE INSPECCIÓN / COBRO */
+    #checkoutPanel {
+      position: fixed; bottom: 76px; left: 20px;
+      background: #fff; padding: 16px; border: 1px solid #ddd;
+      border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      min-width: 260px; display: none; z-index: 20;
+      max-height: 60vh;       
+  overflow-y: auto;    
     }
-
-    .sobre-nosotros .contenido-textos{
-        width: 90%;
-    }
-
-    .imagen-about-us{
-        width: 90%;
-    }
-
-    /* Galeria */
-
-    .imagen-port{
-        width: 44%;
-    }
-
-    /* Clientes */
-
-    .cards{
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .cards .card{
-        width: 90%;
-    }
-
-    .cards .card:first-child{
-        margin-bottom: 30px;
-    }
-
-    /* servicios */
-
-    .servicio-cont{
-        justify-content: center;
-        flex-direction: column;
-    }
-
-    .servicio-ind{
-        width: 100%;
-        text-align: center;
-    }
-
-    .servicio-ind:nth-child(1), .servicio-ind:nth-child(2){
-        margin-bottom: 60px;
-    }
-
-    .servicio-ind img{
-        width: 90%;
-    }
+    .boton-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(145deg, #ffffff, #e0e0e0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15), inset 0 1px 2px rgba(255,255,255,0.8);
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-@media screen and (max-width:500px){
-    nav{
-        text-align: center;
-        padding: 30px 0 0 0;
-    }
-
-    nav > a{
-        margin-right: 5px;
-    }
-
-    .textos-header h1{
-        font-size: 35px;
-    }
-
-    .textos-header h2{
-        font-size: 20px;
-    }
-
-    /* ABOUT US */
-
-    .imagen-about-us{
-        margin-bottom: 60px;
-        width: 99%;
-    }
-
-    .sobre-nosotros .contenido-textos{
-        width: 95%;
-    }
-
-    /* Galeria */
-
-    .imagen-port{
-        width: 95%;
-    }
-
-    /* Clients */
-
-    .cards .card{
-        height: 450px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .cards .card img{
-        width: 90px;
-        height: 90px;
-    }
-
-    /* Footer */
-
-    .contenedor-footer{
-        flex-direction: column;
-        border: none;
-    }
-
-    .content-foo{
-        margin-bottom: 20px;
-        text-align: center;
-    }
-
-    .content-foo h4{
-        border: none;
-    }
-
-    .content-foo p{
-        color: #ccc;
-        border-bottom: 1px solid #f2f2f2;
-        padding-bottom: 20px;
-    }
-
-    .titulo-final{
-        font-size: 20px;
-    }
+.boton-icono {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: #e65100;
+  color: white;
+  border: none;
+  box-shadow:
+    0 3px 6px rgba(0, 0, 0, 0.25),
+    inset 0 1px 1px rgba(255, 255, 255, 0.3),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  cursor: pointer;
+  transition: 0.2s ease;
 }
+
+.boton-icono:hover {
+  background: #ffa726;
+  box-shadow:
+    0 4px 10px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px rgba(255, 255, 255, 0.4);
+  transform: scale(1.08);
+}
+
+
+
+    #checkoutHeader { 
+      
+      margin-bottom: 8px; }
+    .subcuenta {
+      display: grid; grid-template-columns: 1fr auto; align-items: center; margin-bottom: 10px;
+    }
+    .btnCobro { display: flex; gap: 4px; }
+
+    /* MODALES COMUNES */
+    .modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5); display: flex; align-items: center;
+      justify-content: center; opacity: 0; visibility: hidden; transition: .2s;
+      z-index: 30;
+    }
+    .modal.active { opacity: 1; visibility: visible; }
+    .modal .panel {
+      background: #fff; border-radius: 8px; padding: 1.5rem;
+      width: 90%; max-width: 500px; max-height: 80%; overflow-y: auto;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+    }
+    .modal h3 { margin-bottom: 1rem; color: #333; }
+    .modal ul { list-style: none; padding: 0; margin: .5rem 0; }
+    .modal .actions { text-align: right; margin-top: 1.5rem; }
+    .modal .actions button {
+      margin-left: 8px; padding: 6px 12px; font-size: .9rem;
+      border: none; border-radius: 4px; cursor: pointer;
+    }
+    .modal .actions .btn { background: #ccc; color: #333; }
+    .modal .actions .btn-add { background: #e65c00; color: #fff; }
+
+    /* IMAGEN VOLADORA */
+    .flying-img {
+      position: absolute; z-index: 1000; pointer-events: none; border-radius: 8px;
+    }
+    input{
+      font-size: 16px;
+    }
+    #cob-pagado{
+      padding: 5px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="title">IAEgo</div>
+    <button id="btnHistory">Historial</button>
+  </header>
+
+  <div id="mesaBar"></div>
+
+  <div class="container">
+    <aside class="sidebar">
+      <ul class="thumb-list" id="thumbList"></ul>
+    </aside>
+    <section class="main">
+      <img id="mainImage" src="" alt="">
+      <div class="details">
+        <h2 id="productName"></h2>
+        <p class="price" id="productPrice"></p>
+        <p class="desc" id="productDesc"></p>
+      </div>
+    </section>
+  </div>
+
+  <div id="categoryMenu"></div>
+
+  <div id="checkoutPanel">
+    <div id="checkoutHeader">
+      <span class="mesa-name" id="mesaNumber"></span>
+    </div>
+    <div id="accountsList"></div>
+    <div class="actions">
+      <button id="newAccountBtn" class="btn-add">+ Nueva Cuenta</button>
+      <button id="payAllBtn" class="btn-add">Cobrar Todo</button>
+      <button id="closeCartBtn" class="btn">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- Modal Editar Pedidos -->
+  <div class="modal" id="modal-edit">
+    <div class="panel">
+      <h3>Editar Pedidos</h3>
+      <ul id="edit-list"></ul>
+      <div class="actions">
+        <button class="btn" id="edit-cancel">Cancelar</button>
+        <button class="btn-add" id="edit-save">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Cobrar -->
+  <div class="modal" id="modal-cobrar">
+    <div class="panel">
+      <h3 id="cob-encabezado">Cobrar</h3>
+      <p><strong>Mesa/Cuenta:</strong> <span id="cob-mesa"></span></p>
+      <ul id="cob-pedidos"></ul>
+      <p><strong>Total:</strong> $<span id="cob-total"></span></p>
+<input type="number" id="cob-pagado" min="0" placeholder="Pagado" />
+
+      <p><strong>Cambio:</strong> $<span id="cob-cambio">0.00</span></p>
+      <div class="actions">
+        <button class="btn" id="cob-cancelar">Cancelar</button>
+        <button class="btn-add" id="cob-confirmar" disabled>Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Historial de Ventas -->
+  <div class="modal" id="modal-history">
+    <div class="panel">
+      <h3>Historial de Ventas</h3>
+      <ul id="history-list"></ul>
+      <div class="actions">
+        <button class="btn" id="hist-cancel">Cerrar</button>
+      </div>
+    </div>
+  </div>
+<script>
+  // —— CONFIG ——  
+  const PRODUCTS_URL = 'https://script.google.com/macros/s/AKfycbwIfQv05pm9zXJPanwbBhbV8w-xKzN3DMeg4BjnEam0WZ-klREnfVrD9e6IGsKx1vdsZw/exec';
+
+  // —— ESTADO GLOBAL ——  
+  let products = [];
+  let uniqueCats = [];
+  let categoriesJson = [];
+
+  let mesas = [];
+  let salesHistory = [];
+
+  let currentMesaId = 1;
+  let currentProductIndex = 0;
+  let currentCategory = 'Todas';
+  let inspectAccIdx = null;
+  let inspectSubIdx = null;
+  let editSaleIdx = null;
+  let editList = [];
+
+  // —— UTIL: storage genérico ——  
+  function loadJSON(key) {
+    try { return JSON.parse(localStorage.getItem(key)) || []; }
+    catch { return []; }
+  }
+  function saveJSON(key, val) {
+    localStorage.setItem(key, JSON.stringify(val));
+  }
+
+  // —— FETCH productos desde Apps Script ——  
+  async function fetchProducts() {
+    const fd = new FormData();
+    fd.append('op','obtenerProductos');
+    const resp = await fetch(PRODUCTS_URL,{ method:'POST', body:fd });
+    const j = await resp.json();
+    return j.status==='success' ? j.data : null;
+  }
+
+  // —— Crea mesas iniciales ——  
+  function createDefaultMesas() {
+    const arr = [];
+    for(let i=1;i<=40;i++){
+      arr.push({ id:i, name:`Mesa ${i}`, cuentas:[{ nombre:'Cuenta 1', pedidos:[] }] });
+    }
+    saveJSON('mesas', arr);
+    return arr;
+  }
+
+  // —— INIT ——  
+(async function(){
+  // 1) Mesas e historial
+  mesas = loadJSON('mesas');
+  if(!mesas.length) mesas = createDefaultMesas();
+  salesHistory = loadJSON('salesHistory');
+
+  // 2) Productos cacheados + UI rápida
+  products = loadJSON('products');
+  setupCats();
+  renderCategories();
+  renderThumbnails();
+  if (products.length) selectProduct(0);
+  renderMesas();
+
+  // 3) Refrescar productos del servidor
+  try {
+    const fresh = await fetchProducts();
+    if (Array.isArray(fresh)) {
+      products = fresh;
+      saveJSON('products', products);
+      setupCats();
+      renderCategories();
+      renderThumbnails();
+      selectProduct(0);
+      // (opcional) renderMesas() aquí sólo si cambian datos de mesas
+    }
+  } catch(e) {
+    console.error(e);
+  }
+
+  // ¡NO es necesario volver a llamar renderMesas() aquí!
+})();
+
+  // —— Construye categorías tras cargar products ——  
+  function setupCats(){
+    uniqueCats = Array.from(new Set(products.map(p=>p.category)));
+    categoriesJson = [{ name:'Todas',filter:null },...uniqueCats.map(cat=>({name:cat,filter:cat}))];
+  }
+
+  // —— SAVE helpers ——  
+  function saveMesas() { saveJSON('mesas',mesas); }
+  function saveSalesHistory() { saveJSON('salesHistory',salesHistory); }
+
+  // —— 5) Render categorías ——  
+  function renderCategories(){
+    const menu = document.getElementById('categoryMenu');
+    menu.innerHTML = '';
+    categoriesJson.forEach(cat=>{
+      const btn = document.createElement('button');
+      btn.textContent = cat.name;
+      btn.className = 'category-btn' + (cat.name===currentCategory?' active':'');
+      btn.onclick = ()=>{
+        currentCategory = cat.name;
+        renderCategories();
+        renderThumbnails();
+        const filtro = cat.filter ? products.filter(p=>p.category===cat.filter) : products;
+        if(filtro.length) selectProduct(products.findIndex(p=>p.id===filtro[0].id));
+      };
+      menu.appendChild(btn);
+    });
+  }
+
+  // —— 6) Thumbnails ——  
+  function renderThumbnails(){
+    const list = document.getElementById('thumbList');
+    list.innerHTML = '';
+    const filtered = currentCategory==='Todas'
+      ? products
+      : products.filter(p=>p.category===currentCategory);
+    filtered.forEach(p=>{
+      const li = document.createElement('li');
+      li.innerHTML = `<img src="${p.image||p.img}" alt="${p.name}">`;
+      li.onclick = ()=> selectProduct(products.findIndex(x=>x.id===p.id));
+      list.appendChild(li);
+    });
+  }
+
+  // —— 7) Producto principal ——  
+  function selectProduct(i){
+    currentProductIndex = i;
+    const p = products[i];
+    document.getElementById('mainImage').src        = p.image||p.img;
+    document.getElementById('productName').textContent = p.name;
+    document.getElementById('productPrice').textContent= `$${p.price.toFixed(2)}`;
+    document.getElementById('productDesc').textContent = p.desc;
+  }
+
+  // —— 8) Mesas & abrir panel ——  
+  function renderMesas(){
+    const bar = document.getElementById('mesaBar');
+    bar.innerHTML = '';
+    mesas.forEach(m=>{
+      const total = m.cuentas.flatMap(c=>c.pedidos.map(x=>x.cantidad)).reduce((a,b)=>a+b,0);
+      const btn = document.createElement('button');
+      btn.className = 'mesa-btn'+(m.id===currentMesaId?' selected':'');
+      btn.innerHTML = `<span class="mesa-name">
+                         <span class="mesa-text">${m.name}</span>
+                         <span class="mesa-count">${total} pz</span>
+                       </span>`;
+      btn.onclick = ()=>{
+        currentMesaId = m.id;
+        renderMesas(); openAccountsPanel();
+      };
+      bar.appendChild(btn);
+    });
+  }
+
+  function openAccountsPanel(){
+    const mesa = mesas.find(m=>m.id===currentMesaId);
+    inspectAccIdx = currentMesaId-1;
+    const total = mesa.cuentas.flatMap(c=>c.pedidos.map(x=>x.cantidad)).reduce((a,b)=>a+b,0);
+    const num = document.getElementById('mesaNumber');
+    num.innerHTML = `<span class="mesa-name">
+                       <span class="mesa-text">${mesa.name}</span>
+                       <span class="mesa-count">${total} pz</span>
+                     </span>`;
+    num.querySelector('.mesa-text').onclick = e=>{
+      makeInlineEditor(e.target,v=>{
+        mesa.name=v; saveMesas(); renderMesas(); openAccountsPanel();
+      });
+    };
+
+    const list = document.getElementById('accountsList');
+    list.innerHTML = '';
+    mesa.cuentas.forEach((c,j)=>{
+      const piezas = c.pedidos.map(x=>x.cantidad).reduce((a,b)=>a+b,0);
+      const div = document.createElement('div');
+      div.className='subcuenta';
+      div.innerHTML = `<span class="sub-name">
+                         <span class="sub-text">${c.nombre}</span>
+                         <span class="sub-count">${piezas} pz</span>
+                       </span>
+                       <span class="btnCobro">
+   <button class="boton-icono" onclick="addToSub(${inspectAccIdx},${j},this)"><i class="fa-solid fa-plus"></i></button>
+    <button class="boton-icono" onclick="openEditModal(${inspectAccIdx},${j})"><i class="fa-solid fa-pen-to-square"></i>
+️</button>
+<button class="boton-icono" onclick="openCobrar(${inspectAccIdx},${j})"><i class="fa-solid fa-money-bill-transfer"></i>️</button>
+                       </span>`;
+      div.querySelector('.sub-text').onclick = e=>{
+        makeInlineEditor(e.target,v=>{
+          mesas[inspectAccIdx].cuentas[j].nombre=v;
+          saveMesas(); openAccountsPanel();
+        });
+      };
+      list.appendChild(div);
+    });
+    document.getElementById('checkoutPanel').style.display='block';
+  }
+
+  // —— 9) Inline editor ——  
+  function makeInlineEditor(el,onSave){
+    const old=el.textContent;
+    const inp=document.createElement('input');
+    inp.type='text'; inp.value=old; inp.style.width=(el.offsetWidth+20)+'px';
+    el.replaceWith(inp); inp.focus();
+    const save=()=>{
+      const v=inp.value.trim()||old;
+      onSave(v);
+      el.textContent=v; inp.replaceWith(el);
+    };
+    inp.addEventListener('blur',save);
+    inp.addEventListener('keydown',e=>{
+      if(e.key==='Enter') save();
+      if(e.key==='Escape'){ inp.value=old; inp.blur(); }
+    });
+  }
+
+  // —— 10) Nueva cuenta / Cobrar todo / Cerrar ——  
+  document.getElementById('newAccountBtn').onclick=()=>{
+    const m=mesas[inspectAccIdx];
+    m.cuentas.push({ nombre:`Cuenta ${m.cuentas.length+1}`, pedidos:[] });
+    saveMesas(); openAccountsPanel();
+  };
+  document.getElementById('payAllBtn').onclick=()=>openCobrarAll(inspectAccIdx);
+  document.getElementById('closeCartBtn').onclick=()=>document.getElementById('checkoutPanel').style.display='none';
+
+  // —— 11) Animación vuelo ——  
+  function animateProductTo(btn){
+    const p = products[currentProductIndex];
+    const flyer=document.createElement('img');
+    flyer.src=p.image||p.img; flyer.className='flying-img';
+    document.body.appendChild(flyer);
+    const start=document.getElementById('mainImage').getBoundingClientRect();
+    const end=btn.getBoundingClientRect();
+    Object.assign(flyer.style,{
+      left:start.left+'px', top:start.top+'px',
+      width:start.width+'px', height:start.height+'px'
+    });
+    requestAnimationFrame(()=>{
+      Object.assign(flyer.style,{
+        transition:'all .6s ease-in-out',
+        left:end.left+'px', top:end.top+'px',
+        width:'20px', height:'20px', opacity:'0.5'
+      });
+    });
+    flyer.addEventListener('transitionend',()=>flyer.remove());
+  }
+
+  // —— 12) Agregar a subcuenta ——  
+  window.addToSub=(i,j,btn)=>{
+    const c=mesas[i].cuentas[j], p=products[currentProductIndex];
+    const ex=c.pedidos.find(x=>x.id===p.id);
+    if(ex) ex.cantidad++; else c.pedidos.push({ id:p.id, nombre:p.name, precio:p.price, cantidad:1 });
+    saveMesas(); animateProductTo(btn); openAccountsPanel();
+  };
+
+  // —— 13) Modal Editar Pedidos ——  
+  window.openEditModal=(i,j)=>{
+    inspectAccIdx=i; inspectSubIdx=j; editSaleIdx=null;
+    editList=mesas[i].cuentas[j].pedidos.map(x=>({...x}));
+    renderEditList(); document.getElementById('modal-edit').classList.add('active');
+  };
+  function renderEditList(){
+    const ul=document.getElementById('edit-list');
+    ul.innerHTML='';
+    if(!editList.length) return void(ul.innerHTML='<li>(vacío)</li>');
+    editList.forEach((x,k)=>{
+      const li=document.createElement('li');
+      li.innerHTML=`${x.nombre} × ${x.cantidad} = $${(x.precio*x.cantidad).toFixed(2)}
+                    <button onclick="removeEdit(${k})">X</button>`;
+      ul.appendChild(li);
+    });
+  }
+  window.removeEdit=k=>{ editList.splice(k,1); renderEditList(); };
+  document.getElementById('edit-cancel').onclick=()=>{ document.getElementById('modal-edit').classList.remove('active'); editSaleIdx=null; };
+  document.getElementById('edit-save').onclick=()=>{
+    if(editSaleIdx!==null){
+      const v=salesHistory[editSaleIdx];
+      v.pedidos=editList.map(x=>({...x}));
+      v.total=v.pedidos.reduce((s,x)=>s+x.precio*x.cantidad,0);
+      saveSalesHistory();
+    } else {
+      mesas[inspectAccIdx].cuentas[inspectSubIdx].pedidos=editList.map(x=>({...x}));
+      saveMesas(); openAccountsPanel();
+    }
+    document.getElementById('modal-edit').classList.remove('active'); editSaleIdx=null;
+  };
+
+  // —— 14) Modal Cobrar ——  
+  function prepareCobrar(title,mesatext,list){
+    document.getElementById('cob-encabezado').textContent=title;
+    document.getElementById('cob-mesa').textContent=mesatext;
+    document.getElementById('cob-pedidos').innerHTML=list.length
+      ? list.map(x=>`<li>${x.nombre} × ${x.cantidad} = $${(x.precio*x.cantidad).toFixed(2)}</li>`).join('')
+      : '<li>(vacío)</li>';
+    document.getElementById('cob-total').textContent = list.reduce((s,x)=>s+x.precio*x.cantidad,0).toFixed(2);
+    const inp=document.getElementById('cob-pagado');
+    inp.value=''; document.getElementById('cob-cambio').textContent='0.00';
+    document.getElementById('cob-confirmar').disabled=true;
+    document.getElementById('modal-cobrar').classList.add('active');
+    inp.oninput=()=>{
+      const paid=parseFloat(inp.value)||0, tot=parseFloat(document.getElementById('cob-total').textContent);
+      document.getElementById('cob-cambio').textContent=(paid>tot?paid-tot:0).toFixed(2);
+      document.getElementById('cob-confirmar').disabled = paid<tot;
+    };
+  }
+  window.openCobrar=(i,j)=>{
+    const c=mesas[i].cuentas[j];
+    prepareCobrar('Cobrar sub‑cuenta',`${mesas[i].name} — ${c.nombre}`,c.pedidos);
+    inspectAccIdx=i; inspectSubIdx=j; editSaleIdx=null;
+  };
+  window.openCobrarAll=i=>{
+    const all=mesas[i].cuentas.flatMap(c=>c.pedidos.map(x=>({...x,cuenta:c.nombre})));
+    const agg={};
+    all.forEach(x=>agg[x.id]?agg[x.id].cantidad+=x.cantidad:agg[x.id]={...x});
+    prepareCobrar('Cobrar todo',`${mesas[i].name} — Todas`,Object.values(agg));
+    inspectAccIdx=i; inspectSubIdx=null; editSaleIdx=null;
+  };
+  document.getElementById('cob-cancelar').onclick=()=>document.getElementById('modal-cobrar').classList.remove('active');
+  document.getElementById('cob-confirmar').onclick=()=>{
+    const m=mesas[inspectAccIdx];
+    const pedidos=inspectSubIdx===null
+      ? m.cuentas.flatMap(c=>c.pedidos.map(x=>({...x,cuenta:c.nombre})))
+      : m.cuentas[inspectSubIdx].pedidos.map(x=>({...x,cuenta:m.cuentas[inspectSubIdx].nombre}));
+    const total=parseFloat(document.getElementById('cob-total').textContent)||0;
+    const pagado=parseFloat(document.getElementById('cob-pagado').value)||0;
+    const cambio=parseFloat(document.getElementById('cob-cambio').textContent)||0;
+    const venta={ id:Date.now(), fecha:new Date().toISOString(),
+                  mesa:m.id, cuenta:inspectSubIdx===null?'Todas':m.cuentas[inspectSubIdx].nombre,
+                  pedidos,total,pagado,cambio };
+    salesHistory.push(venta); saveSalesHistory();
+    if(inspectSubIdx===null){
+      m.name=`Mesa ${m.id}`; m.cuentas=[{ nombre:'Cuenta 1',pedidos:[] }];
+    } else {
+      m.cuentas.splice(inspectSubIdx,1);
+      if(!m.cuentas.length) m.cuentas=[{ nombre:'Cuenta 1',pedidos:[] }];
+    }
+    saveMesas(); document.getElementById('modal-cobrar').classList.remove('active');
+    renderMesas(); openAccountsPanel();
+  };
+
+  // —— 15) Historial ——  
+  document.getElementById('btnHistory').onclick=()=>{
+    const ul=document.getElementById('history-list');
+    ul.innerHTML='';
+    if(!salesHistory.length) return void(ul.innerHTML='<li>(Sin ventas aún)</li>');
+    salesHistory.forEach((v,idx)=>{
+      const li=document.createElement('li');
+      const f=new Date(v.fecha).toLocaleString();
+      li.innerHTML=`<strong>${f}</strong> — Mesa ${v.mesa} / ${v.cuenta} — Total: $${v.total.toFixed(2)}
+                    <button onclick="openEditSale(${idx})"><i class="fa-solid fa-pen-to-square"></i>
+</button>`;
+      ul.appendChild(li);
+    });
+    document.getElementById('modal-history').classList.add('active');
+  };
+  document.getElementById('hist-cancel').onclick=()=>document.getElementById('modal-history').classList.remove('active');
+  window.openEditSale=idx=>{
+    editSaleIdx=idx;
+    const v=salesHistory[idx];
+    editList=v.pedidos.map(x=>({...x}));
+    renderEditList(); document.getElementById('modal-edit').classList.add('active');
+  };
+</script>
+
+</body>
+</html>
